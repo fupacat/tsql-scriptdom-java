@@ -34,7 +34,7 @@
         <antlr2.version>2.7.7</antlr2.version>
         <javapoet.version>1.13.0</javapoet.version>
         <junit.jupiter.version>5.10.2</junit.jupiter.version>
-        <assertj.version>3.25.3</assertj.version>
+        <assertj.version>3.27.7</assertj.version>
     </properties>
 
     <dependencyManagement>
