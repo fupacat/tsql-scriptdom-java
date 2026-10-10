@@ -31,3 +31,8 @@
 ## ADR-008
 - Status: [RESOLVED]
 - Decision: Implement public TSql160Parser facade providing parse methods that return TSqlFragment ASTs and populate ParseError diagnostics.
+
+## ADR-009
+- Status: [RESOLVED]
+- Decision: Ingest upstream SqlScriptDOM regression test scripts into tsql-scriptdom-core/src/test/resources/testscripts/ and execute parameterized JUnit 5 regression tests via TSql160Parser.
+

@@ -162,7 +162,11 @@ public abstract class TSqlLexerBaseInternalHelper extends TSqlLexerBaseInternal 
         try { Long.parseLong(s); return false; } catch (Exception e) { return true; }
     }
     public void beginComplexToken() {}
-    public void checkEOF(Object kind) {}
+    public void checkEOF(Object kind) throws antlr.RecognitionException, antlr.CharStreamException, antlr.TokenStreamException {
+        if (LA(1) == EOF_CHAR || LA(1) == (char)-1 || LA(1) == '\uFFFF') {
+            throw new antlr.NoViableAltForCharException((char)LA(1), getFilename(), getLine(), getColumn());
+        }
+    }
 }
 ''', encoding="utf-8"
     )
@@ -198,8 +202,7 @@ public abstract class TSqlLexerBaseInternalHelper extends TSqlLexerBaseInternal 
         'UpdatePositionInfo', 'AddParseError',
         'ThrowParseErrorException', 'ThrowIncorrectSyntaxErrorException',
         'ThrowPartialAstIfPhaseOne', 'ThrowConstraintIfPhaseOne',
-        'ThrowSyntaxErrorIfNotCreateAlterTable', 'RecoverAtBatchLevel',
-        'RecoverAtStatementLevel', 'ResetQuotedIdentifiersSettingToInitial',
+        'ThrowSyntaxErrorIfNotCreateAlterTable', 'ResetQuotedIdentifiersSettingToInitial',
         'SaveGuessing', 'AddConstraintToColumn',
         'AddConstraintToComputedColumn',
         'AssignCopyColumnOptions', 'AssignValueToCopyOption',
@@ -278,6 +281,8 @@ public abstract class TSqlLexerBaseInternalHelper extends TSqlLexerBaseInternal 
         '    public boolean IsXml(Object... args) { if (args.length > 0 && args[0] != null) { String str = (args[0] instanceof Identifier id && id.Value != null) ? id.Value : args[0].toString(); return "xml".equalsIgnoreCase(str); } return false; }',
         '    public boolean IsSys(Object... args) { if (args.length > 0 && args[0] != null) { String str = (args[0] instanceof Identifier id && id.Value != null) ? id.Value : args[0].toString(); return "sys".equalsIgnoreCase(str); } return false; }',
         '    public boolean IsTableReference(Object... args) { try { return LA(1) != LeftParenthesis; } catch (Exception e) { return true; } }',
+        '    public void RecoverAtStatementLevel(Object... args) { try { while (LA(1) != EOF && LA(1) != Semicolon && LA(1) != Go) { consume(); } if (LA(1) == Semicolon) { consume(); } } catch (Exception ignored) {} }',
+        '    public void RecoverAtBatchLevel(Object... args) { try { while (LA(1) != EOF && LA(1) != Go) { consume(); } if (LA(1) == Go) { consume(); } } catch (Exception ignored) {} }',
         '    public IdentifierLiteral CreateIdentifierLiteral(String val, QuoteType qt) { IdentifierLiteral il = new IdentifierLiteral(); il.Value = val; il.QuoteType = qt; return il; }',
         '    public StringLiteral CreateStringLiteral(String val) { StringLiteral sl = new StringLiteral(); sl.Value = val; return sl; }',
         '    public TemporalClause CreateTemporalClause(TemporalClauseType clauseType) { TemporalClause tc = new TemporalClause(); tc.TemporalClauseType = clauseType; return tc; }',
@@ -509,6 +514,11 @@ import io.github.fupacat.ast.*;
     g_text = g_text.replace('text.ToString()', 'text.toString()')
     g_text = g_text.replace('vStringBuilder.Append', 'vStringBuilder.append')
     g_text = g_text.replace('vStringBuilder.ToString()', 'vStringBuilder.toString()')
+    g_text = re.sub(
+        r'vResult\.FunctionName\.Value\.ToUpper\(\s*CultureInfo\.InvariantCulture\s*\)\s*==\s*([A-Za-z0-9_.]+)',
+        r'(vResult.FunctionName.Value != null && vResult.FunctionName.Value.equalsIgnoreCase(\1))',
+        g_text
+    )
     g_text = re.sub(r'\.ToUpper\(\s*CultureInfo\.InvariantCulture\s*\)', '.toUpperCase()', g_text)
     g_text = re.sub(r'[sS]tring\.Format\(\s*culture,\s*"\{0\}\s+\{1\}",\s*([^,]+),\s*([^)]+)\)', r'(\1 + " " + \2)', g_text)
     g_text = re.sub(r'\.StartsWith\(\s*([^,]+),\s*StringComparison\.\w+\s*\)', r'.startsWith(\1)', g_text)

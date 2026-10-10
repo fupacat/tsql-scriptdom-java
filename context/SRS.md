@@ -218,4 +218,63 @@
 }
 ```
 
+## Phase 4: Upstream Regression Verification
+
+[REQ-016] Test resources SHALL include upstream Microsoft SqlScriptDOM test scripts.
+
+```json
+{
+  "requirement": "REQ-016",
+  "kind": "categorical",
+  "precondition": "upstream SqlScriptDOM repository available",
+  "action": "load test script resource files",
+  "expected": "test script resources accessible on classpath",
+  "method": "junit",
+  "expected_output": "test script stream"
+}
+```
+
+[REQ-017] The test suite SHALL execute parameterized regression tests parsing upstream T-SQL test scripts with TSql160Parser.
+
+```json
+{
+  "requirement": "REQ-017",
+  "kind": "categorical",
+  "precondition": "upstream test script resources loaded",
+  "action": "execute parameterized parse across test scripts",
+  "expected": "test scripts evaluated and parsed",
+  "method": "junit",
+  "expected_output": "test executions"
+}
+```
+
+[REQ-018] TSql160Parser SHALL successfully parse common and version-specific baseline test scripts producing non-null TSqlScript ASTs.
+
+```json
+{
+  "requirement": "REQ-018",
+  "kind": "categorical",
+  "precondition": "valid upstream baseline test scripts provided",
+  "action": "invoke TSql160Parser parse",
+  "expected": "non-null TSqlScript AST without unhandled exceptions",
+  "method": "junit",
+  "expected_output": "TSqlScript"
+}
+```
+
+[REQ-019] The Maven build SHALL verify that the regression test suite passes cleanly under Maven Surefire.
+
+```json
+{
+  "requirement": "REQ-019",
+  "kind": "categorical",
+  "precondition": "regression tests present in test directory",
+  "action": "run maven test on tsql-scriptdom-core",
+  "expected": "all tests execute and pass",
+  "method": "maven",
+  "expected_output": "BUILD SUCCESS"
+}
+```
+
+
 
