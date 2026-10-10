@@ -50,17 +50,17 @@ tsql-scriptdom-java/
 ## 🗺️ Roadmap & Milestones
 
 - [x] **Phase 0:** Project scoping, upstream architectural audit, and repo initialization.
-- [ ] **Phase 1: AST Code Generation (`tsql-scriptdom-astgen`)**
-  - [ ] Port `AstGen` to Java using JavaPoet.
-  - [ ] Generate ~500 strongly-typed AST classes from `Ast.xml`.
-  - [ ] Generate `TSqlFragmentVisitor` and `TSqlConcreteFragmentVisitor`.
-- [ ] **Phase 2: Base Parser Runtime & Lexer**
-  - [ ] Port `TSqlTokenFilter` (comment and whitespace handling).
-  - [ ] Port `TSqlLexerBaseInternal` and `TSql160ParserBaseInternal` (predicate helpers and validation tables).
-- [ ] **Phase 3: Grammar Translation (`TSql160.g`)**
-  - [ ] Adapt C# semantic actions to Java in `TSql160.g` and `TSqlTokenTypes.g`.
-  - [ ] Compile parser via ANTLR 2.7.7.
-  - [ ] Implement public facade `TSql160Parser`.
+- [x] **Phase 1: AST Code Generation (`tsql-scriptdom-astgen`)**
+  - [x] Port `AstGen` to Java using JavaPoet.
+  - [x] Generate ~500 strongly-typed AST classes from `Ast.xml`.
+  - [x] Generate `TSqlFragmentVisitor` and `TSqlConcreteFragmentVisitor`.
+- [x] **Phase 2: Base Parser Runtime & Lexer**
+  - [x] Port `TSqlTokenFilter` (comment and whitespace handling).
+  - [x] Port `TSqlLexerBaseInternal` and `TSql160ParserBaseInternal` (predicate helpers and validation tables).
+- [x] **Phase 3: Grammar Translation (`TSql160.g`)**
+  - [x] Adapt C# semantic actions to Java in `TSql160.g` and `TSqlTokenTypes.g`.
+  - [x] Compile parser via ANTLR 2.7.7.
+  - [x] Implement public facade `TSql160Parser`.
 - [ ] **Phase 4: Upstream Regression Verification**
   - [ ] Ingest 1,000+ `.sql` test scripts from Microsoft's test suite into parameterized JUnit 5 tests.
 - [ ] **Phase 5: SonarQube Language Plugin (`sonar-tsql-plugin`)**
