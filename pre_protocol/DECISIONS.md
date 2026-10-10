@@ -23,3 +23,11 @@
 ## ADR-006
 - Status: [RESOLVED]
 - Decision: Collapse upstream C# multi-tiered version inheritance (TSql80 through TSql150) into a single direct TSql160ParserBaseInternal runtime class extending antlr.LLkParser.
+
+## ADR-007
+- Status: [RESOLVED]
+- Decision: Adapt TSql160.g and TSqlTokenTypes.g for ANTLR 2 Java target, outputting generated parser and token types into target/generated-sources.
+
+## ADR-008
+- Status: [RESOLVED]
+- Decision: Implement public TSql160Parser facade providing parse methods that return TSqlFragment ASTs and populate ParseError diagnostics.

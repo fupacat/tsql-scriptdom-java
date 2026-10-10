@@ -43,6 +43,29 @@ public class AstCodeGenerator {
                 .addSuperinterface(java.io.Serializable.class)
                 .addField(com.squareup.javapoet.FieldSpec.builder(com.squareup.javapoet.TypeName.INT, "firstTokenIndex", javax.lang.model.element.Modifier.PUBLIC).build())
                 .addField(com.squareup.javapoet.FieldSpec.builder(com.squareup.javapoet.TypeName.INT, "lastTokenIndex", javax.lang.model.element.Modifier.PUBLIC).build())
+                .addField(com.squareup.javapoet.FieldSpec.builder(
+                        com.squareup.javapoet.ClassName.get(java.util.List.class), "ScriptTokenStream", javax.lang.model.element.Modifier.PUBLIC)
+                        .initializer("new $T<>()", java.util.ArrayList.class).build())
+                .addField(com.squareup.javapoet.FieldSpec.builder(String.class, "Value", javax.lang.model.element.Modifier.PUBLIC).build())
+                .addMethod(com.squareup.javapoet.MethodSpec.methodBuilder("UpdateTokenInfo")
+                        .addModifiers(javax.lang.model.element.Modifier.PUBLIC)
+                        .addParameter(int.class, "first")
+                        .addParameter(int.class, "last")
+                        .addStatement("this.firstTokenIndex = first")
+                        .addStatement("this.lastTokenIndex = last")
+                        .build())
+                .addMethod(com.squareup.javapoet.MethodSpec.methodBuilder("UpdateTokenInfo")
+                        .addModifiers(javax.lang.model.element.Modifier.PUBLIC)
+                        .addParameter(Object.class, "other")
+                        .build())
+                .addMethod(com.squareup.javapoet.MethodSpec.methodBuilder("SetUnquotedIdentifier")
+                        .addModifiers(javax.lang.model.element.Modifier.PUBLIC)
+                        .addParameter(String.class, "identifier")
+                        .build())
+                .addMethod(com.squareup.javapoet.MethodSpec.methodBuilder("SetIdentifier")
+                        .addModifiers(javax.lang.model.element.Modifier.PUBLIC)
+                        .addParameter(String.class, "identifier")
+                        .build())
                 .addMethod(com.squareup.javapoet.MethodSpec.methodBuilder("accept")
                         .addModifiers(javax.lang.model.element.Modifier.PUBLIC, javax.lang.model.element.Modifier.ABSTRACT)
                         .addParameter(com.squareup.javapoet.ClassName.get(PACKAGE_NAME, "TSqlFragmentVisitor"), "visitor")
@@ -107,6 +130,48 @@ public class AstCodeGenerator {
                 classBuilder.superclass(com.squareup.javapoet.ClassName.get(PACKAGE_NAME, c.base));
             } else {
                 classBuilder.superclass(com.squareup.javapoet.ClassName.get(PACKAGE_NAME, "TSqlFragment"));
+            }
+
+            for (String iface : c.interfaces) {
+                classBuilder.addSuperinterface(com.squareup.javapoet.ClassName.get(PACKAGE_NAME, iface));
+            }
+
+            if ("SchemaObjectName".equals(c.name)) {
+                classBuilder.addField(com.squareup.javapoet.FieldSpec.builder(com.squareup.javapoet.ClassName.get(PACKAGE_NAME, "Identifier"), "SchemaIdentifier", javax.lang.model.element.Modifier.PUBLIC).build());
+                classBuilder.addField(com.squareup.javapoet.FieldSpec.builder(com.squareup.javapoet.ClassName.get(PACKAGE_NAME, "Identifier"), "BaseIdentifier", javax.lang.model.element.Modifier.PUBLIC).build());
+                classBuilder.addField(com.squareup.javapoet.FieldSpec.builder(com.squareup.javapoet.ClassName.get(PACKAGE_NAME, "Identifier"), "DatabaseIdentifier", javax.lang.model.element.Modifier.PUBLIC).build());
+                classBuilder.addField(com.squareup.javapoet.FieldSpec.builder(com.squareup.javapoet.ClassName.get(PACKAGE_NAME, "Identifier"), "ServerIdentifier", javax.lang.model.element.Modifier.PUBLIC).build());
+            }
+
+            if ("MultiPartIdentifier".equals(c.name)) {
+                classBuilder.addMethod(com.squareup.javapoet.MethodSpec.methodBuilder("size")
+                        .addModifiers(javax.lang.model.element.Modifier.PUBLIC)
+                        .returns(int.class)
+                        .addStatement("return Identifiers != null ? Identifiers.size() : 0")
+                        .build());
+                classBuilder.addMethod(com.squareup.javapoet.MethodSpec.methodBuilder("Count")
+                        .addModifiers(javax.lang.model.element.Modifier.PUBLIC)
+                        .returns(int.class)
+                        .addStatement("return size()")
+                        .build());
+            }
+
+            if (c.interfaces.contains("IAuthorization")) {
+                classBuilder.addField(com.squareup.javapoet.FieldSpec.builder(com.squareup.javapoet.ClassName.get(PACKAGE_NAME, "Identifier"), "Owner", javax.lang.model.element.Modifier.PUBLIC).build());
+            }
+            if (c.interfaces.contains("ICollationSetter") || "ColumnDefinitionBase".equals(c.name) || "PrimaryExpression".equals(c.name)) {
+                classBuilder.addField(com.squareup.javapoet.FieldSpec.builder(com.squareup.javapoet.ClassName.get(PACKAGE_NAME, "Identifier"), "Collation", javax.lang.model.element.Modifier.PUBLIC).build());
+            }
+            if (c.interfaces.contains("IDataMaskingSetter") || "ColumnDefinition".equals(c.name) || "AlterTableAlterColumnStatement".equals(c.name)) {
+                classBuilder.addField(com.squareup.javapoet.FieldSpec.builder(com.squareup.javapoet.ClassName.get(Boolean.class), "IsMasked", javax.lang.model.element.Modifier.PUBLIC).build());
+                classBuilder.addField(com.squareup.javapoet.FieldSpec.builder(com.squareup.javapoet.ClassName.get(PACKAGE_NAME, "StringLiteral"), "MaskingFunction", javax.lang.model.element.Modifier.PUBLIC).build());
+            }
+            if (c.interfaces.contains("IFileStreamSpecifier") || "CreateTableStatement".equals(c.name)) {
+                classBuilder.addField(com.squareup.javapoet.FieldSpec.builder(com.squareup.javapoet.ClassName.get(PACKAGE_NAME, "IdentifierOrValueExpression"), "FileStreamOn", javax.lang.model.element.Modifier.PUBLIC).build());
+            }
+            if (c.interfaces.contains("IPasswordChangeOption") || "CertificateStatementBase".equals(c.name) || "CreateCertificateStatement".equals(c.name)) {
+                classBuilder.addField(com.squareup.javapoet.FieldSpec.builder(com.squareup.javapoet.ClassName.get(PACKAGE_NAME, "Literal"), "EncryptionPassword", javax.lang.model.element.Modifier.PUBLIC).build());
+                classBuilder.addField(com.squareup.javapoet.FieldSpec.builder(com.squareup.javapoet.ClassName.get(PACKAGE_NAME, "Literal"), "DecryptionPassword", javax.lang.model.element.Modifier.PUBLIC).build());
             }
 
             // Members
@@ -226,15 +291,16 @@ public class AstCodeGenerator {
     // TRACEABILITY_MAPPING: REQ-002
     private com.squareup.javapoet.TypeName _resolveType(String rawType, boolean isCollection) {
         String clean = rawType.trim();
-        if (clean.endsWith("?")) {
+        boolean isNullable = clean.endsWith("?");
+        if (isNullable) {
             clean = clean.substring(0, clean.length() - 1);
         }
 
         com.squareup.javapoet.TypeName baseType;
         if (clean.equals("bool") || clean.equals("Boolean")) {
-            baseType = isCollection ? com.squareup.javapoet.ClassName.get(Boolean.class) : com.squareup.javapoet.TypeName.BOOLEAN;
+            baseType = (isCollection || isNullable) ? com.squareup.javapoet.ClassName.get(Boolean.class) : com.squareup.javapoet.TypeName.BOOLEAN;
         } else if (clean.equals("int")) {
-            baseType = isCollection ? com.squareup.javapoet.ClassName.get(Integer.class) : com.squareup.javapoet.TypeName.INT;
+            baseType = (isCollection || isNullable) ? com.squareup.javapoet.ClassName.get(Integer.class) : com.squareup.javapoet.TypeName.INT;
         } else if (clean.equals("string")) {
             baseType = com.squareup.javapoet.ClassName.get(String.class);
         } else if (clean.equals("SensitivityClassification.OptionType")) {

@@ -94,3 +94,37 @@
 }
 ```
 
+```json
+{
+  "kind": "interface",
+  "id": "IF-005",
+  "path": "tsql-scriptdom-core/src/main/java/io/github/fupacat/TSql160Parser.java",
+  "symbol": "TSql160Parser.parse",
+  "signature": {
+    "parameters": [
+      {
+        "name": "reader",
+        "kind": "positional_or_keyword",
+        "annotation": "Reader",
+        "default": null
+      },
+      {
+        "name": "errors",
+        "kind": "positional_or_keyword",
+        "annotation": "List",
+        "default": null
+      }
+    ],
+    "return": "TSqlFragment",
+    "async": false
+  },
+  "dependencies": [
+    "io.github.fupacat.ast.TSqlFragment",
+    "java.io.Reader",
+    "java.util.List"
+  ],
+  "exchanges": []
+}
+```
+
+

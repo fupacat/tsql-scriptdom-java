@@ -8,11 +8,16 @@ public class TSqlWhitespaceTokenFilter implements TokenStream {
     private final java.util.List<TSqlParserToken> streamToFilter;
     private int currentTokenIndex = 0;
     private boolean quotedIdentifier = true;
+    public boolean QuotedIdentifier = true;
     private TSqlParserToken lastToken;
+
+    private final TokenStream innerStream;
 
     public TSqlWhitespaceTokenFilter(boolean quotedIdentifier, java.util.List<TSqlParserToken> streamToFilter) {
         this.quotedIdentifier = quotedIdentifier;
+        this.QuotedIdentifier = quotedIdentifier;
         this.streamToFilter = streamToFilter != null ? streamToFilter : new java.util.ArrayList<>();
+        this.innerStream = null;
         this.currentTokenIndex = 0;
         if (!this.streamToFilter.isEmpty()) {
             this.lastToken = this.streamToFilter.get(0);
@@ -21,9 +26,42 @@ public class TSqlWhitespaceTokenFilter implements TokenStream {
         }
     }
 
+    public TSqlWhitespaceTokenFilter(boolean quotedIdentifier, TokenStream innerStream) {
+        this.quotedIdentifier = quotedIdentifier;
+        this.QuotedIdentifier = quotedIdentifier;
+        this.streamToFilter = null;
+        this.innerStream = innerStream;
+        this.lastToken = new TSqlParserToken(TSqlTokenType.EndOfFile, null);
+    }
+
+    public TSqlWhitespaceTokenFilter(TokenStream innerStream) {
+        this(true, innerStream);
+    }
+
     // TRACEABILITY_MAPPING: REQ-007
     @Override
     public Token nextToken() throws antlr.TokenStreamException {
+        if (innerStream != null) {
+            Token token;
+            while ((token = innerStream.nextToken()) != null) {
+                int ttype = token.getType();
+                if (ttype == TSqlTokenTypes.WhiteSpace || ttype == TSqlTokenTypes.SingleLineComment || ttype == TSqlTokenTypes.MultilineComment) {
+                    continue;
+                }
+                if (token instanceof TSqlParserToken pt) {
+                    lastToken = pt;
+                } else {
+                    lastToken = new TSqlParserToken(TSqlTokenType.None, token.getText());
+                    lastToken.setType(token.getType());
+                    lastToken.setLine(token.getLine());
+                    lastToken.setColumn(token.getColumn());
+                }
+                return token;
+            }
+            Token eofToken = new antlr.CommonToken(TSqlTokenTypes.EOF, "");
+            lastToken = new TSqlParserToken(TSqlTokenType.EndOfFile, "");
+            return eofToken;
+        }
         TSqlParserToken token = null;
         int streamLength = streamToFilter.size();
 

@@ -36,6 +36,16 @@ public class AstSchemaParser {
 
                 classDef.members.add(new AstModel.MemberDef(mName, mType, collection, mSummary));
             }
+
+            org.w3c.dom.NodeList implNodes = classElem.getElementsByTagName("Implements");
+            for (int j = 0; j < implNodes.getLength(); j++) {
+                org.w3c.dom.Element implElem = (org.w3c.dom.Element) implNodes.item(j);
+                String iface = implElem.getAttribute("Interface").trim();
+                if (!iface.isEmpty()) {
+                    classDef.interfaces.add(iface);
+                }
+            }
+
             model.classes.add(classDef);
         }
 
