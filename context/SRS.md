@@ -73,3 +73,76 @@
   "expected_output": "BUILD SUCCESS"
 }
 ```
+
+## Phase 2: Base Parser Runtime & Lexer
+
+[REQ-006] The core runtime SHALL provide TSqlTokenType and TSqlParserToken representing T-SQL token categories with source offsets, lines, and columns.
+
+```json
+{
+  "requirement": "REQ-006",
+  "kind": "categorical",
+  "precondition": "token text and position coordinates provided",
+  "action": "instantiate TSqlParserToken",
+  "expected": "token fields accurately reflect coordinates and type",
+  "method": "junit",
+  "expected_output": "TSqlParserToken"
+}
+```
+
+[REQ-007] TSqlWhitespaceTokenFilter SHALL filter whitespace and comment tokens while retaining EOF and quoted identifier state.
+
+```json
+{
+  "requirement": "REQ-007",
+  "kind": "categorical",
+  "precondition": "raw token stream contains whitespace and comments",
+  "action": "invoke TSqlWhitespaceTokenFilter nextToken",
+  "expected": "whitespace and comments excluded from filtered stream",
+  "method": "junit",
+  "expected_output": "Token"
+}
+```
+
+[REQ-008] TSqlLexerBaseInternal SHALL provide character offset tracking and token creation for ANTLR 2 scanners.
+
+```json
+{
+  "requirement": "REQ-008",
+  "kind": "categorical",
+  "precondition": "source text stream is provided to lexer",
+  "action": "invoke TSqlLexerBaseInternal makeToken",
+  "expected": "token instance created with accurate offset calculations",
+  "method": "junit",
+  "expected_output": "TSqlParserToken"
+}
+```
+
+[REQ-009] TSql160ParserBaseInternal SHALL provide LL(2) lookahead predicates, recovery token sets, and parse error collection into ParseError objects.
+
+```json
+{
+  "requirement": "REQ-009",
+  "kind": "categorical",
+  "precondition": "parser instance initialized with token stream",
+  "action": "invoke TSql160ParserBaseInternal getParseErrors",
+  "expected": "parse errors list initialized and accessible",
+  "method": "junit",
+  "expected_output": "List"
+}
+```
+
+[REQ-010] The Maven build SHALL verify tsql-scriptdom-core compiles cleanly and passes all runtime tests.
+
+```json
+{
+  "requirement": "REQ-010",
+  "kind": "categorical",
+  "precondition": "all core runtime sources present",
+  "action": "run maven compile on tsql-scriptdom-core",
+  "expected": "compilation succeeds with zero errors",
+  "method": "maven",
+  "expected_output": "BUILD SUCCESS"
+}
+```
+

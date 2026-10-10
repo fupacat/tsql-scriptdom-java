@@ -55,3 +55,42 @@
   "exchanges": []
 }
 ```
+
+```json
+{
+  "kind": "interface",
+  "id": "IF-003",
+  "path": "tsql-scriptdom-core/src/main/java/io/github/fupacat/TSqlWhitespaceTokenFilter.java",
+  "symbol": "TSqlWhitespaceTokenFilter.nextToken",
+  "signature": {
+    "parameters": [],
+    "return": "Token",
+    "async": false
+  },
+  "dependencies": [
+    "antlr.Token",
+    "antlr.TokenStream"
+  ],
+  "exchanges": []
+}
+```
+
+```json
+{
+  "kind": "interface",
+  "id": "IF-004",
+  "path": "tsql-scriptdom-core/src/main/java/io/github/fupacat/TSql160ParserBaseInternal.java",
+  "symbol": "TSql160ParserBaseInternal.getParseErrors",
+  "signature": {
+    "parameters": [],
+    "return": "List",
+    "async": false
+  },
+  "dependencies": [
+    "antlr.LLkParser",
+    "java.util.List"
+  ],
+  "exchanges": []
+}
+```
+

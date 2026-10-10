@@ -15,3 +15,11 @@
 ## ADR-004
 - Status: [RESOLVED]
 - Decision: Standardize on ANTLR 2.7.7 runtime with TSql160 (SQL Server 2022) as unified superset grammar for deterministic LL(2) lookahead parsing.
+
+## ADR-005
+- Status: [RESOLVED]
+- Decision: Implement TSqlWhitespaceTokenFilter and TSqlParserToken on ANTLR 2.7.7 TokenStream preserving exact source offsets and quoted identifier toggles.
+
+## ADR-006
+- Status: [RESOLVED]
+- Decision: Collapse upstream C# multi-tiered version inheritance (TSql80 through TSql150) into a single direct TSql160ParserBaseInternal runtime class extending antlr.LLkParser.
