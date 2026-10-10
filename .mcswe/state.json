@@ -1,0 +1,73 @@
+{
+  "approvals": {
+    "ARCH_LOCKED": ".mcswe/locks/fda7b5f9-8ddf-4cc1-907f-f8e466273ec7.json",
+    "SPEC_LOCKED": ".mcswe/locks/5e6f2451-117f-44cd-bab7-f3ad39d2d682.json",
+    "TRIAGED": ".mcswe/locks/e1eb6aec-f856-403a-bf6a-abb25acf857d.json"
+  },
+  "evidence": ".mcswe/evidence/5de18f4c-4871-4d6a-828f-7df5f84c06a2.json",
+  "history": [
+    {
+      "from": "INIT",
+      "revision": 1,
+      "to": "TRIAGED"
+    },
+    {
+      "from": "TRIAGED",
+      "revision": 2,
+      "to": "SPEC_LOCKED"
+    },
+    {
+      "from": "SPEC_LOCKED",
+      "revision": 3,
+      "to": "TRIAGED"
+    },
+    {
+      "from": "TRIAGED",
+      "revision": 4,
+      "to": "SPEC_LOCKED"
+    },
+    {
+      "from": "SPEC_LOCKED",
+      "revision": 5,
+      "to": "ARCH_LOCKED"
+    },
+    {
+      "from": "ARCH_LOCKED",
+      "revision": 6,
+      "to": "TRIAGED"
+    },
+    {
+      "from": "TRIAGED",
+      "revision": 7,
+      "to": "SPEC_LOCKED"
+    },
+    {
+      "from": "SPEC_LOCKED",
+      "revision": 8,
+      "to": "ARCH_LOCKED"
+    },
+    {
+      "from": "ARCH_LOCKED",
+      "revision": 9,
+      "to": "TRIAGED"
+    },
+    {
+      "from": "TRIAGED",
+      "revision": 10,
+      "to": "SPEC_LOCKED"
+    },
+    {
+      "from": "SPEC_LOCKED",
+      "revision": 11,
+      "to": "ARCH_LOCKED"
+    },
+    {
+      "from": "ARCH_LOCKED",
+      "revision": 12,
+      "to": "AUDITED"
+    }
+  ],
+  "revision": 12,
+  "schema_version": 3,
+  "state": "AUDITED"
+}

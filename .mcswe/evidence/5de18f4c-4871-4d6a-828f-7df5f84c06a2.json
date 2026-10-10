@@ -1,0 +1,517 @@
+{
+  "adapters": {
+    "controller": "3.0.0",
+    "fingerprints": {
+      "JavaAstScanner.java": "a3114cef184b0d3d04f9b5e7c67c5c8d57c2b5d4bde14f69369284621ec255cf",
+      "engine.py": "76b242a56c7c4a0902edf83ad0e1ff962c9fb767af38300cd0bd5de80c4551a6",
+      "java_adapter.py": "24636b44c1053d6b9f620a6d36436df56972fbb8f2e769624f58f4b9c3b8c379",
+      "maven_adapter.py": "3bf32f96dfd8b4608aeda2ad96cc744d81df2b2a4489c29e81a4dcdaf8bf5827",
+      "pytest_adapter.py": "176e5a615f0e4beb508c549d69e8d9befb742b2ef77ce3e09e77de7a43b33b61"
+    },
+    "parser": "java-ast-v1",
+    "runner": "maven-surefire",
+    "test": "maven-surefire-v1"
+  },
+  "diagnostics": [],
+  "enforcement": "advisory",
+  "exemptions": [],
+  "inputs": {
+    ".mcswe/config.json": "7c77b505a13d6a19e94974a32d309a36b6040dc027c29007d65c5f50f545c05f",
+    "context/ICD.md": "69816b4b04dc5dab8d5537cfc99a2fba22c4dd8a4aa06d0c0f76a5eb26c48c00",
+    "context/SRS.md": "e7f1eabc82f170e84f8d941e81eb73862a7a0921ff5a75e042b19f5b0fa3aa9c",
+    "pre_protocol/DECISIONS.md": "baa6e541cf63585b1dee107b63cda541ca6a9f7704d743b9d0eaf3e750c703ee",
+    "pre_protocol/RESEARCH_BOUNDS.md": "c835bb76e0351f6f9baba10491b5ad658675d8f22b06a64ac065e4619fd011b5",
+    "tsql-scriptdom-astgen/src/main/java/io/github/fupacat/AstCodeGenerator.java": "df9f8a98d46a86236d006b9cbea8b890ff051b5982a9ccb54e8d730aa073b9ad",
+    "tsql-scriptdom-astgen/src/main/java/io/github/fupacat/AstModel.java": "594b81e2f7b82030d4f04cfb609e5d84fe8ec84a09e87f0b38c760d46ea77333",
+    "tsql-scriptdom-astgen/src/main/java/io/github/fupacat/AstSchemaParser.java": "e24e7249408ec8fc8843bed81bc0974982d8b6421f1c9533aaaa8c2576afaa04",
+    "tsql-scriptdom-astgen/src/test/java/io/github/fupacat/AstCodeGeneratorTest.java": "857ea268be7d88699bedbc60e16fb6ac07ce246ed6fe151b003f9d655ad9c4e4",
+    "tsql-scriptdom-astgen/src/test/java/io/github/fupacat/AstSchemaParserTest.java": "23bebdac72dcf61fb58e702d6fd9d1bdd577b9acd6eea26042b168de28affefe"
+  },
+  "result": {
+    "argv": [
+      "/home/eric/.local/bin/mvn",
+      "test",
+      "-q"
+    ],
+    "exit_status": 0,
+    "limit": null,
+    "stderr": "",
+    "stdout": ""
+  },
+  "revision": ".mcswe/locks/fda7b5f9-8ddf-4cc1-907f-f8e466273ec7.json",
+  "rows": [
+    {
+      "requirement": "REQ-001",
+      "source": [
+        {
+          "exported": true,
+          "ids": [
+            "REQ-001"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-astgen/src/main/java/io/github/fupacat/AstSchemaParser.java",
+          "signature": {
+            "async": false,
+            "parameters": [
+              {
+                "annotation": "InputStream",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "inputStream"
+              }
+            ],
+            "return": "AstModel"
+          },
+          "span": [
+            8,
+            74
+          ],
+          "symbol": "AstSchemaParser.parse"
+        }
+      ],
+      "status": "VERIFIED",
+      "tests": [
+        "io.github.fupacat.AstSchemaParserTest::testParseAstXml",
+        "AstSchemaParserTest::testParseAstXml",
+        "tsql-scriptdom-astgen/src/test/java/io/github/fupacat/AstSchemaParserTest.java::AstSchemaParserTest::testParseAstXml"
+      ]
+    },
+    {
+      "requirement": "REQ-002",
+      "source": [
+        {
+          "exported": true,
+          "ids": [
+            "REQ-002",
+            "REQ-003",
+            "REQ-004",
+            "REQ-005"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-astgen/src/main/java/io/github/fupacat/AstCodeGenerator.java",
+          "signature": {
+            "async": false,
+            "parameters": [
+              {
+                "annotation": "AstModel",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "model"
+              },
+              {
+                "annotation": "Path",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "outputDirectory"
+              }
+            ],
+            "return": "int"
+          },
+          "span": [
+            10,
+            37
+          ],
+          "symbol": "AstCodeGenerator.generate"
+        },
+        {
+          "exported": false,
+          "ids": [
+            "REQ-002"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-astgen/src/main/java/io/github/fupacat/AstCodeGenerator.java",
+          "signature": {
+            "async": false,
+            "parameters": [
+              {
+                "annotation": "Path",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "outputDirectory"
+              }
+            ],
+            "return": "int"
+          },
+          "span": [
+            40,
+            58
+          ],
+          "symbol": "AstCodeGenerator._generateBaseFragment"
+        },
+        {
+          "exported": false,
+          "ids": [
+            "REQ-002"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-astgen/src/main/java/io/github/fupacat/AstCodeGenerator.java",
+          "signature": {
+            "async": false,
+            "parameters": [
+              {
+                "annotation": "AstModel",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "model"
+              },
+              {
+                "annotation": "Path",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "outputDirectory"
+              }
+            ],
+            "return": "int"
+          },
+          "span": [
+            61,
+            76
+          ],
+          "symbol": "AstCodeGenerator._generateEnums"
+        },
+        {
+          "exported": false,
+          "ids": [
+            "REQ-002"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-astgen/src/main/java/io/github/fupacat/AstCodeGenerator.java",
+          "signature": {
+            "async": false,
+            "parameters": [
+              {
+                "annotation": "AstModel",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "model"
+              },
+              {
+                "annotation": "Path",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "outputDirectory"
+              }
+            ],
+            "return": "int"
+          },
+          "span": [
+            79,
+            89
+          ],
+          "symbol": "AstCodeGenerator._generateInterfaces"
+        },
+        {
+          "exported": false,
+          "ids": [
+            "REQ-002"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-astgen/src/main/java/io/github/fupacat/AstCodeGenerator.java",
+          "signature": {
+            "async": false,
+            "parameters": [
+              {
+                "annotation": "AstModel",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "model"
+              },
+              {
+                "annotation": "java.util.Set<String>",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "classNames"
+              },
+              {
+                "annotation": "Path",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "outputDirectory"
+              }
+            ],
+            "return": "int"
+          },
+          "span": [
+            92,
+            177
+          ],
+          "symbol": "AstCodeGenerator._generateClasses"
+        },
+        {
+          "exported": false,
+          "ids": [
+            "REQ-002"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-astgen/src/main/java/io/github/fupacat/AstCodeGenerator.java",
+          "signature": {
+            "async": false,
+            "parameters": [
+              {
+                "annotation": "String",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "rawType"
+              },
+              {
+                "annotation": "boolean",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "isCollection"
+              }
+            ],
+            "return": "com.squareup.javapoet.TypeName"
+          },
+          "span": [
+            227,
+            253
+          ],
+          "symbol": "AstCodeGenerator._resolveType"
+        }
+      ],
+      "status": "VERIFIED",
+      "tests": [
+        "io.github.fupacat.AstCodeGeneratorTest::testGenerateAstNodes",
+        "AstCodeGeneratorTest::testGenerateAstNodes",
+        "tsql-scriptdom-astgen/src/test/java/io/github/fupacat/AstCodeGeneratorTest.java::AstCodeGeneratorTest::testGenerateAstNodes"
+      ]
+    },
+    {
+      "requirement": "REQ-003",
+      "source": [
+        {
+          "exported": true,
+          "ids": [
+            "REQ-002",
+            "REQ-003",
+            "REQ-004",
+            "REQ-005"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-astgen/src/main/java/io/github/fupacat/AstCodeGenerator.java",
+          "signature": {
+            "async": false,
+            "parameters": [
+              {
+                "annotation": "AstModel",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "model"
+              },
+              {
+                "annotation": "Path",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "outputDirectory"
+              }
+            ],
+            "return": "int"
+          },
+          "span": [
+            10,
+            37
+          ],
+          "symbol": "AstCodeGenerator.generate"
+        },
+        {
+          "exported": false,
+          "ids": [
+            "REQ-003"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-astgen/src/main/java/io/github/fupacat/AstCodeGenerator.java",
+          "signature": {
+            "async": false,
+            "parameters": [
+              {
+                "annotation": "AstModel",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "model"
+              },
+              {
+                "annotation": "Path",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "outputDirectory"
+              }
+            ],
+            "return": "int"
+          },
+          "span": [
+            180,
+            200
+          ],
+          "symbol": "AstCodeGenerator._generateVisitor"
+        }
+      ],
+      "status": "VERIFIED",
+      "tests": [
+        "io.github.fupacat.AstCodeGeneratorTest::testGenerateVisitorInterface",
+        "AstCodeGeneratorTest::testGenerateVisitorInterface",
+        "tsql-scriptdom-astgen/src/test/java/io/github/fupacat/AstCodeGeneratorTest.java::AstCodeGeneratorTest::testGenerateVisitorInterface"
+      ]
+    },
+    {
+      "requirement": "REQ-004",
+      "source": [
+        {
+          "exported": true,
+          "ids": [
+            "REQ-002",
+            "REQ-003",
+            "REQ-004",
+            "REQ-005"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-astgen/src/main/java/io/github/fupacat/AstCodeGenerator.java",
+          "signature": {
+            "async": false,
+            "parameters": [
+              {
+                "annotation": "AstModel",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "model"
+              },
+              {
+                "annotation": "Path",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "outputDirectory"
+              }
+            ],
+            "return": "int"
+          },
+          "span": [
+            10,
+            37
+          ],
+          "symbol": "AstCodeGenerator.generate"
+        },
+        {
+          "exported": false,
+          "ids": [
+            "REQ-004"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-astgen/src/main/java/io/github/fupacat/AstCodeGenerator.java",
+          "signature": {
+            "async": false,
+            "parameters": [
+              {
+                "annotation": "AstModel",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "model"
+              },
+              {
+                "annotation": "Path",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "outputDirectory"
+              }
+            ],
+            "return": "int"
+          },
+          "span": [
+            203,
+            224
+          ],
+          "symbol": "AstCodeGenerator._generateConcreteVisitor"
+        }
+      ],
+      "status": "VERIFIED",
+      "tests": [
+        "io.github.fupacat.AstCodeGeneratorTest::testGenerateConcreteVisitor",
+        "AstCodeGeneratorTest::testGenerateConcreteVisitor",
+        "tsql-scriptdom-astgen/src/test/java/io/github/fupacat/AstCodeGeneratorTest.java::AstCodeGeneratorTest::testGenerateConcreteVisitor"
+      ]
+    },
+    {
+      "requirement": "REQ-005",
+      "source": [
+        {
+          "exported": true,
+          "ids": [
+            "REQ-002",
+            "REQ-003",
+            "REQ-004",
+            "REQ-005"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-astgen/src/main/java/io/github/fupacat/AstCodeGenerator.java",
+          "signature": {
+            "async": false,
+            "parameters": [
+              {
+                "annotation": "AstModel",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "model"
+              },
+              {
+                "annotation": "Path",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "outputDirectory"
+              }
+            ],
+            "return": "int"
+          },
+          "span": [
+            10,
+            37
+          ],
+          "symbol": "AstCodeGenerator.generate"
+        }
+      ],
+      "status": "VERIFIED",
+      "tests": [
+        "io.github.fupacat.AstCodeGeneratorTest::testCompileGeneratedNodes",
+        "AstCodeGeneratorTest::testCompileGeneratedNodes",
+        "tsql-scriptdom-astgen/src/test/java/io/github/fupacat/AstCodeGeneratorTest.java::AstCodeGeneratorTest::testCompileGeneratedNodes"
+      ]
+    }
+  ],
+  "run_id": "5de18f4c-4871-4d6a-828f-7df5f84c06a2",
+  "schema_version": 3,
+  "test_report": {
+    "collected": [
+      "io.github.fupacat.AstCodeGeneratorTest::testGenerateConcreteVisitor",
+      "AstCodeGeneratorTest::testGenerateConcreteVisitor",
+      "tsql-scriptdom-astgen/src/test/java/io/github/fupacat/AstCodeGeneratorTest.java::AstCodeGeneratorTest::testGenerateConcreteVisitor",
+      "io.github.fupacat.AstCodeGeneratorTest::testGenerateVisitorInterface",
+      "AstCodeGeneratorTest::testGenerateVisitorInterface",
+      "tsql-scriptdom-astgen/src/test/java/io/github/fupacat/AstCodeGeneratorTest.java::AstCodeGeneratorTest::testGenerateVisitorInterface",
+      "io.github.fupacat.AstCodeGeneratorTest::testCompileGeneratedNodes",
+      "AstCodeGeneratorTest::testCompileGeneratedNodes",
+      "tsql-scriptdom-astgen/src/test/java/io/github/fupacat/AstCodeGeneratorTest.java::AstCodeGeneratorTest::testCompileGeneratedNodes",
+      "io.github.fupacat.AstCodeGeneratorTest::testGenerateAstNodes",
+      "AstCodeGeneratorTest::testGenerateAstNodes",
+      "tsql-scriptdom-astgen/src/test/java/io/github/fupacat/AstCodeGeneratorTest.java::AstCodeGeneratorTest::testGenerateAstNodes",
+      "io.github.fupacat.AstSchemaParserTest::testParseAstXml",
+      "AstSchemaParserTest::testParseAstXml",
+      "tsql-scriptdom-astgen/src/test/java/io/github/fupacat/AstSchemaParserTest.java::AstSchemaParserTest::testParseAstXml"
+    ],
+    "exit_status": 0,
+    "outcomes": {
+      "AstCodeGeneratorTest::testCompileGeneratedNodes": "passed",
+      "AstCodeGeneratorTest::testGenerateAstNodes": "passed",
+      "AstCodeGeneratorTest::testGenerateConcreteVisitor": "passed",
+      "AstCodeGeneratorTest::testGenerateVisitorInterface": "passed",
+      "AstSchemaParserTest::testParseAstXml": "passed",
+      "io.github.fupacat.AstCodeGeneratorTest::testCompileGeneratedNodes": "passed",
+      "io.github.fupacat.AstCodeGeneratorTest::testGenerateAstNodes": "passed",
+      "io.github.fupacat.AstCodeGeneratorTest::testGenerateConcreteVisitor": "passed",
+      "io.github.fupacat.AstCodeGeneratorTest::testGenerateVisitorInterface": "passed",
+      "io.github.fupacat.AstSchemaParserTest::testParseAstXml": "passed",
+      "tsql-scriptdom-astgen/src/test/java/io/github/fupacat/AstCodeGeneratorTest.java::AstCodeGeneratorTest::testCompileGeneratedNodes": "passed",
+      "tsql-scriptdom-astgen/src/test/java/io/github/fupacat/AstCodeGeneratorTest.java::AstCodeGeneratorTest::testGenerateAstNodes": "passed",
+      "tsql-scriptdom-astgen/src/test/java/io/github/fupacat/AstCodeGeneratorTest.java::AstCodeGeneratorTest::testGenerateConcreteVisitor": "passed",
+      "tsql-scriptdom-astgen/src/test/java/io/github/fupacat/AstCodeGeneratorTest.java::AstCodeGeneratorTest::testGenerateVisitorInterface": "passed",
+      "tsql-scriptdom-astgen/src/test/java/io/github/fupacat/AstSchemaParserTest.java::AstSchemaParserTest::testParseAstXml": "passed"
+    },
+    "runner_version": "maven-surefire"
+  }
+}

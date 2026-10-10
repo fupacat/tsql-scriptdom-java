@@ -1,0 +1,26 @@
+{
+  "inputs": {
+    "adapters": {
+      "controller": "3.0.0",
+      "fingerprints": {
+        "JavaAstScanner.java": "56bedfbe22bfe5c65f3d00c4ada254140d0cffeea9846c7d2667ff3f06fc57bd",
+        "engine.py": "76b242a56c7c4a0902edf83ad0e1ff962c9fb767af38300cd0bd5de80c4551a6",
+        "java_adapter.py": "1bf9ca544070d906eae7d6f10c4732160b8ef37cc827abacfa2a7df82579bc74",
+        "maven_adapter.py": "3bf32f96dfd8b4608aeda2ad96cc744d81df2b2a4489c29e81a4dcdaf8bf5827",
+        "pytest_adapter.py": "176e5a615f0e4beb508c549d69e8d9befb742b2ef77ce3e09e77de7a43b33b61"
+      },
+      "parser": "java-ast-v1",
+      "test": "maven-surefire-v1"
+    },
+    "files": {
+      ".mcswe/config.json": "7c77b505a13d6a19e94974a32d309a36b6040dc027c29007d65c5f50f545c05f",
+      "context/ICD.md": "69816b4b04dc5dab8d5537cfc99a2fba22c4dd8a4aa06d0c0f76a5eb26c48c00",
+      "context/SRS.md": "e7f1eabc82f170e84f8d941e81eb73862a7a0921ff5a75e042b19f5b0fa3aa9c",
+      "pre_protocol/DECISIONS.md": "baa6e541cf63585b1dee107b63cda541ca6a9f7704d743b9d0eaf3e750c703ee",
+      "pre_protocol/RESEARCH_BOUNDS.md": "c835bb76e0351f6f9baba10491b5ad658675d8f22b06a64ac065e4619fd011b5"
+    }
+  },
+  "parent": ".mcswe/locks/66f03f16-0a26-44fd-ad7e-edd3380b386f.json",
+  "phase": "ARCH_LOCKED",
+  "schema_version": 3
+}

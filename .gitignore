@@ -20,3 +20,7 @@ target/
 # OS generated
 .DS_Store
 Thumbs.db
+
+# Python / MCSWE caches
+__pycache__/
+.pytest_cache/

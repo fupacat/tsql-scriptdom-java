@@ -1,0 +1,22 @@
+{
+  "inputs": {
+    "adapters": {
+      "controller": "3.0.0",
+      "fingerprints": {
+        "engine.py": "e71dfff5e32a2dd8098d03274ab78119e311a7508bd2e4f9be37f2ef319b982f",
+        "pytest_adapter.py": "176e5a615f0e4beb508c549d69e8d9befb742b2ef77ce3e09e77de7a43b33b61"
+      },
+      "parser": "python-ast-v1",
+      "test": "pytest-report-v1"
+    },
+    "files": {
+      ".mcswe/config.json": "57669207e8e9ca58c22ddc9091a1f711cc5fc9424c1cae34e7ed961b9f56d50b",
+      "context/SRS.md": "e7f1eabc82f170e84f8d941e81eb73862a7a0921ff5a75e042b19f5b0fa3aa9c",
+      "pre_protocol/DECISIONS.md": "baa6e541cf63585b1dee107b63cda541ca6a9f7704d743b9d0eaf3e750c703ee",
+      "pre_protocol/RESEARCH_BOUNDS.md": "c835bb76e0351f6f9baba10491b5ad658675d8f22b06a64ac065e4619fd011b5"
+    }
+  },
+  "parent": ".mcswe/locks/79ddbce8-1362-4bd5-8392-8a4be9cd852a.json",
+  "phase": "SPEC_LOCKED",
+  "schema_version": 3
+}
