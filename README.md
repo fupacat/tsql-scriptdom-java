@@ -3,6 +3,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Java 17+](https://img.shields.io/badge/Java-17%2B-blue.svg)](https://openjdk.org/)
 [![Maven Central](https://img.shields.io/badge/Maven%20Central-Snapshot-orange.svg)](#)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=fupacat_tsql-scriptdom-java&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=fupacat_tsql-scriptdom-java)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=fupacat_tsql-scriptdom-java&metric=coverage)](https://sonarcloud.io/summary/new_code?id=fupacat_tsql-scriptdom-java)
 
 A pure Java port of Microsoft's **ScriptDOM** (`Microsoft.SqlServer.TransactSql.ScriptDom`), the canonical Transact-SQL (T-SQL) parser and Abstract Syntax Tree (AST) engine powering SQL Server Data Tools (SSDT), Azure Data Studio, and SQL Server Management Studio (SSMS).
 
