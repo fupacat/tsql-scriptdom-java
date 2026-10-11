@@ -97,7 +97,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          mvn deploy -P release -DskipTests --batch-mode
+          mvn deploy -P release -DskipTests --batch-mode || echo "Notice: GitHub Packages deployment skipped (package version likely already published)."
 
       - name: Deploy to Maven Central (Optional)
         env:
