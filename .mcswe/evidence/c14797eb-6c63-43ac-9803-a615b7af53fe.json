@@ -1,0 +1,2001 @@
+{
+  "adapters": {
+    "controller": "3.0.0",
+    "fingerprints": {
+      "JavaAstScanner.java": "a3114cef184b0d3d04f9b5e7c67c5c8d57c2b5d4bde14f69369284621ec255cf",
+      "engine.py": "76b242a56c7c4a0902edf83ad0e1ff962c9fb767af38300cd0bd5de80c4551a6",
+      "java_adapter.py": "24636b44c1053d6b9f620a6d36436df56972fbb8f2e769624f58f4b9c3b8c379",
+      "maven_adapter.py": "3bf32f96dfd8b4608aeda2ad96cc744d81df2b2a4489c29e81a4dcdaf8bf5827",
+      "pytest_adapter.py": "176e5a615f0e4beb508c549d69e8d9befb742b2ef77ce3e09e77de7a43b33b61"
+    },
+    "parser": "java-ast-v1",
+    "runner": null,
+    "test": "maven-surefire-v1"
+  },
+  "diagnostics": [
+    {
+      "code": "ROGUE_REGION",
+      "gate": 3,
+      "identifiers": [],
+      "message": "[18, 26]",
+      "path": "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSqlRegressionTest.java",
+      "repair_scope": [
+        "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSqlRegressionTest.java"
+      ],
+      "revision": ".mcswe/locks/05364834-c587-4ff1-91f3-50599ae9d1ff.json",
+      "schema_version": 3,
+      "span": null
+    },
+    {
+      "code": "TEST_EXECUTION",
+      "gate": 3,
+      "identifiers": [],
+      "message": "missing runner report",
+      "path": "",
+      "repair_scope": [],
+      "revision": ".mcswe/locks/05364834-c587-4ff1-91f3-50599ae9d1ff.json",
+      "schema_version": 3,
+      "span": null
+    },
+    {
+      "code": "TEST_NOT_EXECUTED",
+      "gate": 3,
+      "identifiers": [
+        "REQ-001"
+      ],
+      "message": "REQ-001: mapped test must execute and pass",
+      "path": "tsql-scriptdom-astgen/src/test/java/io/github/fupacat/AstSchemaParserTest.java",
+      "repair_scope": [
+        "tsql-scriptdom-astgen/src/test/java/io/github/fupacat/AstSchemaParserTest.java"
+      ],
+      "revision": ".mcswe/locks/05364834-c587-4ff1-91f3-50599ae9d1ff.json",
+      "schema_version": 3,
+      "span": null
+    },
+    {
+      "code": "TEST_NOT_EXECUTED",
+      "gate": 3,
+      "identifiers": [
+        "REQ-002"
+      ],
+      "message": "REQ-002: mapped test must execute and pass",
+      "path": "tsql-scriptdom-astgen/src/test/java/io/github/fupacat/AstCodeGeneratorTest.java",
+      "repair_scope": [
+        "tsql-scriptdom-astgen/src/test/java/io/github/fupacat/AstCodeGeneratorTest.java"
+      ],
+      "revision": ".mcswe/locks/05364834-c587-4ff1-91f3-50599ae9d1ff.json",
+      "schema_version": 3,
+      "span": null
+    },
+    {
+      "code": "TEST_NOT_EXECUTED",
+      "gate": 3,
+      "identifiers": [
+        "REQ-003"
+      ],
+      "message": "REQ-003: mapped test must execute and pass",
+      "path": "tsql-scriptdom-astgen/src/test/java/io/github/fupacat/AstCodeGeneratorTest.java",
+      "repair_scope": [
+        "tsql-scriptdom-astgen/src/test/java/io/github/fupacat/AstCodeGeneratorTest.java"
+      ],
+      "revision": ".mcswe/locks/05364834-c587-4ff1-91f3-50599ae9d1ff.json",
+      "schema_version": 3,
+      "span": null
+    },
+    {
+      "code": "TEST_NOT_EXECUTED",
+      "gate": 3,
+      "identifiers": [
+        "REQ-004"
+      ],
+      "message": "REQ-004: mapped test must execute and pass",
+      "path": "tsql-scriptdom-astgen/src/test/java/io/github/fupacat/AstCodeGeneratorTest.java",
+      "repair_scope": [
+        "tsql-scriptdom-astgen/src/test/java/io/github/fupacat/AstCodeGeneratorTest.java"
+      ],
+      "revision": ".mcswe/locks/05364834-c587-4ff1-91f3-50599ae9d1ff.json",
+      "schema_version": 3,
+      "span": null
+    },
+    {
+      "code": "TEST_NOT_EXECUTED",
+      "gate": 3,
+      "identifiers": [
+        "REQ-005"
+      ],
+      "message": "REQ-005: mapped test must execute and pass",
+      "path": "tsql-scriptdom-astgen/src/test/java/io/github/fupacat/AstCodeGeneratorTest.java",
+      "repair_scope": [
+        "tsql-scriptdom-astgen/src/test/java/io/github/fupacat/AstCodeGeneratorTest.java"
+      ],
+      "revision": ".mcswe/locks/05364834-c587-4ff1-91f3-50599ae9d1ff.json",
+      "schema_version": 3,
+      "span": null
+    },
+    {
+      "code": "TEST_NOT_EXECUTED",
+      "gate": 3,
+      "identifiers": [
+        "REQ-006"
+      ],
+      "message": "REQ-006: mapped test must execute and pass",
+      "path": "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSqlParserTokenTest.java",
+      "repair_scope": [
+        "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSqlParserTokenTest.java"
+      ],
+      "revision": ".mcswe/locks/05364834-c587-4ff1-91f3-50599ae9d1ff.json",
+      "schema_version": 3,
+      "span": null
+    },
+    {
+      "code": "TEST_NOT_EXECUTED",
+      "gate": 3,
+      "identifiers": [
+        "REQ-007"
+      ],
+      "message": "REQ-007: mapped test must execute and pass",
+      "path": "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSqlWhitespaceTokenFilterTest.java",
+      "repair_scope": [
+        "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSqlWhitespaceTokenFilterTest.java"
+      ],
+      "revision": ".mcswe/locks/05364834-c587-4ff1-91f3-50599ae9d1ff.json",
+      "schema_version": 3,
+      "span": null
+    },
+    {
+      "code": "TEST_NOT_EXECUTED",
+      "gate": 3,
+      "identifiers": [
+        "REQ-008"
+      ],
+      "message": "REQ-008: mapped test must execute and pass",
+      "path": "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSqlLexerBaseInternalTest.java",
+      "repair_scope": [
+        "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSqlLexerBaseInternalTest.java"
+      ],
+      "revision": ".mcswe/locks/05364834-c587-4ff1-91f3-50599ae9d1ff.json",
+      "schema_version": 3,
+      "span": null
+    },
+    {
+      "code": "TEST_NOT_EXECUTED",
+      "gate": 3,
+      "identifiers": [
+        "REQ-009"
+      ],
+      "message": "REQ-009: mapped test must execute and pass",
+      "path": "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSql160ParserBaseInternalTest.java",
+      "repair_scope": [
+        "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSql160ParserBaseInternalTest.java"
+      ],
+      "revision": ".mcswe/locks/05364834-c587-4ff1-91f3-50599ae9d1ff.json",
+      "schema_version": 3,
+      "span": null
+    },
+    {
+      "code": "TEST_NOT_EXECUTED",
+      "gate": 3,
+      "identifiers": [
+        "REQ-010"
+      ],
+      "message": "REQ-010: mapped test must execute and pass",
+      "path": "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSqlCoreRuntimeTest.java",
+      "repair_scope": [
+        "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSqlCoreRuntimeTest.java"
+      ],
+      "revision": ".mcswe/locks/05364834-c587-4ff1-91f3-50599ae9d1ff.json",
+      "schema_version": 3,
+      "span": null
+    },
+    {
+      "code": "TEST_NOT_EXECUTED",
+      "gate": 3,
+      "identifiers": [
+        "REQ-011"
+      ],
+      "message": "REQ-011: mapped test must execute and pass",
+      "path": "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSql160ParserTest.java",
+      "repair_scope": [
+        "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSql160ParserTest.java"
+      ],
+      "revision": ".mcswe/locks/05364834-c587-4ff1-91f3-50599ae9d1ff.json",
+      "schema_version": 3,
+      "span": null
+    },
+    {
+      "code": "TEST_NOT_EXECUTED",
+      "gate": 3,
+      "identifiers": [
+        "REQ-012"
+      ],
+      "message": "REQ-012: mapped test must execute and pass",
+      "path": "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSql160ParserTest.java",
+      "repair_scope": [
+        "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSql160ParserTest.java"
+      ],
+      "revision": ".mcswe/locks/05364834-c587-4ff1-91f3-50599ae9d1ff.json",
+      "schema_version": 3,
+      "span": null
+    },
+    {
+      "code": "TEST_NOT_EXECUTED",
+      "gate": 3,
+      "identifiers": [
+        "REQ-013"
+      ],
+      "message": "REQ-013: mapped test must execute and pass",
+      "path": "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSql160ParserTest.java",
+      "repair_scope": [
+        "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSql160ParserTest.java"
+      ],
+      "revision": ".mcswe/locks/05364834-c587-4ff1-91f3-50599ae9d1ff.json",
+      "schema_version": 3,
+      "span": null
+    },
+    {
+      "code": "TEST_NOT_EXECUTED",
+      "gate": 3,
+      "identifiers": [
+        "REQ-013"
+      ],
+      "message": "REQ-013: mapped test must execute and pass",
+      "path": "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSql160ParserTest.java",
+      "repair_scope": [
+        "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSql160ParserTest.java"
+      ],
+      "revision": ".mcswe/locks/05364834-c587-4ff1-91f3-50599ae9d1ff.json",
+      "schema_version": 3,
+      "span": null
+    },
+    {
+      "code": "TEST_NOT_EXECUTED",
+      "gate": 3,
+      "identifiers": [
+        "REQ-013"
+      ],
+      "message": "REQ-013: mapped test must execute and pass",
+      "path": "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSql160ParserTest.java",
+      "repair_scope": [
+        "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSql160ParserTest.java"
+      ],
+      "revision": ".mcswe/locks/05364834-c587-4ff1-91f3-50599ae9d1ff.json",
+      "schema_version": 3,
+      "span": null
+    },
+    {
+      "code": "TEST_NOT_EXECUTED",
+      "gate": 3,
+      "identifiers": [
+        "REQ-014"
+      ],
+      "message": "REQ-014: mapped test must execute and pass",
+      "path": "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSql160ParserTest.java",
+      "repair_scope": [
+        "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSql160ParserTest.java"
+      ],
+      "revision": ".mcswe/locks/05364834-c587-4ff1-91f3-50599ae9d1ff.json",
+      "schema_version": 3,
+      "span": null
+    },
+    {
+      "code": "TEST_NOT_EXECUTED",
+      "gate": 3,
+      "identifiers": [
+        "REQ-015"
+      ],
+      "message": "REQ-015: mapped test must execute and pass",
+      "path": "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSql160ParserTest.java",
+      "repair_scope": [
+        "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSql160ParserTest.java"
+      ],
+      "revision": ".mcswe/locks/05364834-c587-4ff1-91f3-50599ae9d1ff.json",
+      "schema_version": 3,
+      "span": null
+    },
+    {
+      "code": "TEST_NOT_EXECUTED",
+      "gate": 3,
+      "identifiers": [
+        "REQ-015"
+      ],
+      "message": "REQ-015: mapped test must execute and pass",
+      "path": "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSql160ParserTest.java",
+      "repair_scope": [
+        "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSql160ParserTest.java"
+      ],
+      "revision": ".mcswe/locks/05364834-c587-4ff1-91f3-50599ae9d1ff.json",
+      "schema_version": 3,
+      "span": null
+    },
+    {
+      "code": "TEST_NOT_EXECUTED",
+      "gate": 3,
+      "identifiers": [
+        "REQ-015"
+      ],
+      "message": "REQ-015: mapped test must execute and pass",
+      "path": "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSql160ParserTest.java",
+      "repair_scope": [
+        "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSql160ParserTest.java"
+      ],
+      "revision": ".mcswe/locks/05364834-c587-4ff1-91f3-50599ae9d1ff.json",
+      "schema_version": 3,
+      "span": null
+    },
+    {
+      "code": "TEST_NOT_EXECUTED",
+      "gate": 3,
+      "identifiers": [
+        "REQ-016"
+      ],
+      "message": "REQ-016: mapped test must execute and pass",
+      "path": "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSqlRegressionTest.java",
+      "repair_scope": [
+        "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSqlRegressionTest.java"
+      ],
+      "revision": ".mcswe/locks/05364834-c587-4ff1-91f3-50599ae9d1ff.json",
+      "schema_version": 3,
+      "span": null
+    },
+    {
+      "code": "TEST_NOT_EXECUTED",
+      "gate": 3,
+      "identifiers": [
+        "REQ-017"
+      ],
+      "message": "REQ-017: mapped test must execute and pass",
+      "path": "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSqlRegressionTest.java",
+      "repair_scope": [
+        "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSqlRegressionTest.java"
+      ],
+      "revision": ".mcswe/locks/05364834-c587-4ff1-91f3-50599ae9d1ff.json",
+      "schema_version": 3,
+      "span": null
+    },
+    {
+      "code": "TEST_NOT_EXECUTED",
+      "gate": 3,
+      "identifiers": [
+        "REQ-017"
+      ],
+      "message": "REQ-017: mapped test must execute and pass",
+      "path": "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSqlRegressionTest.java",
+      "repair_scope": [
+        "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSqlRegressionTest.java"
+      ],
+      "revision": ".mcswe/locks/05364834-c587-4ff1-91f3-50599ae9d1ff.json",
+      "schema_version": 3,
+      "span": null
+    },
+    {
+      "code": "TEST_NOT_EXECUTED",
+      "gate": 3,
+      "identifiers": [
+        "REQ-018"
+      ],
+      "message": "REQ-018: mapped test must execute and pass",
+      "path": "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSqlRegressionTest.java",
+      "repair_scope": [
+        "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSqlRegressionTest.java"
+      ],
+      "revision": ".mcswe/locks/05364834-c587-4ff1-91f3-50599ae9d1ff.json",
+      "schema_version": 3,
+      "span": null
+    },
+    {
+      "code": "TEST_NOT_EXECUTED",
+      "gate": 3,
+      "identifiers": [
+        "REQ-018"
+      ],
+      "message": "REQ-018: mapped test must execute and pass",
+      "path": "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSqlRegressionTest.java",
+      "repair_scope": [
+        "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSqlRegressionTest.java"
+      ],
+      "revision": ".mcswe/locks/05364834-c587-4ff1-91f3-50599ae9d1ff.json",
+      "schema_version": 3,
+      "span": null
+    },
+    {
+      "code": "TEST_NOT_EXECUTED",
+      "gate": 3,
+      "identifiers": [
+        "REQ-019"
+      ],
+      "message": "REQ-019: mapped test must execute and pass",
+      "path": "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSqlRegressionTest.java",
+      "repair_scope": [
+        "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSqlRegressionTest.java"
+      ],
+      "revision": ".mcswe/locks/05364834-c587-4ff1-91f3-50599ae9d1ff.json",
+      "schema_version": 3,
+      "span": null
+    },
+    {
+      "code": "TEST_NOT_EXECUTED",
+      "gate": 3,
+      "identifiers": [
+        "REQ-019"
+      ],
+      "message": "REQ-019: mapped test must execute and pass",
+      "path": "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSqlRegressionTest.java",
+      "repair_scope": [
+        "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSqlRegressionTest.java"
+      ],
+      "revision": ".mcswe/locks/05364834-c587-4ff1-91f3-50599ae9d1ff.json",
+      "schema_version": 3,
+      "span": null
+    },
+    {
+      "code": "TEST_NOT_EXECUTED",
+      "gate": 3,
+      "identifiers": [
+        "REQ-020"
+      ],
+      "message": "REQ-020: mapped test must execute and pass",
+      "path": "tsql-scriptdom-core/src/test/java/io/github/fupacat/SqlVersionTest.java",
+      "repair_scope": [
+        "tsql-scriptdom-core/src/test/java/io/github/fupacat/SqlVersionTest.java"
+      ],
+      "revision": ".mcswe/locks/05364834-c587-4ff1-91f3-50599ae9d1ff.json",
+      "schema_version": 3,
+      "span": null
+    },
+    {
+      "code": "TEST_NOT_EXECUTED",
+      "gate": 3,
+      "identifiers": [
+        "REQ-021"
+      ],
+      "message": "REQ-021: mapped test must execute and pass",
+      "path": "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSql180ParserTest.java",
+      "repair_scope": [
+        "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSql180ParserTest.java"
+      ],
+      "revision": ".mcswe/locks/05364834-c587-4ff1-91f3-50599ae9d1ff.json",
+      "schema_version": 3,
+      "span": null
+    },
+    {
+      "code": "TEST_NOT_EXECUTED",
+      "gate": 3,
+      "identifiers": [
+        "REQ-021"
+      ],
+      "message": "REQ-021: mapped test must execute and pass",
+      "path": "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSql180ParserTest.java",
+      "repair_scope": [
+        "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSql180ParserTest.java"
+      ],
+      "revision": ".mcswe/locks/05364834-c587-4ff1-91f3-50599ae9d1ff.json",
+      "schema_version": 3,
+      "span": null
+    },
+    {
+      "code": "TEST_NOT_EXECUTED",
+      "gate": 3,
+      "identifiers": [
+        "REQ-022"
+      ],
+      "message": "REQ-022: mapped test must execute and pass",
+      "path": "tsql-scriptdom-core/src/test/java/io/github/fupacat/SqlCompatibilityValidatorTest.java",
+      "repair_scope": [
+        "tsql-scriptdom-core/src/test/java/io/github/fupacat/SqlCompatibilityValidatorTest.java"
+      ],
+      "revision": ".mcswe/locks/05364834-c587-4ff1-91f3-50599ae9d1ff.json",
+      "schema_version": 3,
+      "span": null
+    },
+    {
+      "code": "TEST_NOT_EXECUTED",
+      "gate": 3,
+      "identifiers": [
+        "REQ-023"
+      ],
+      "message": "REQ-023: mapped test must execute and pass",
+      "path": "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSql180ParserTest.java",
+      "repair_scope": [
+        "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSql180ParserTest.java"
+      ],
+      "revision": ".mcswe/locks/05364834-c587-4ff1-91f3-50599ae9d1ff.json",
+      "schema_version": 3,
+      "span": null
+    },
+    {
+      "code": "TEST_NOT_EXECUTED",
+      "gate": 3,
+      "identifiers": [],
+      "message": "collection/outcome mismatch",
+      "path": "",
+      "repair_scope": [],
+      "revision": ".mcswe/locks/05364834-c587-4ff1-91f3-50599ae9d1ff.json",
+      "schema_version": 3,
+      "span": null
+    }
+  ],
+  "enforcement": "advisory",
+  "exemptions": [],
+  "inputs": {
+    ".mcswe/config.json": "7c77b505a13d6a19e94974a32d309a36b6040dc027c29007d65c5f50f545c05f",
+    "context/ICD.md": "8acfa08aeac84bd29b0ca631543178a21c01d74e229168b862f5f6079f0961b8",
+    "context/SRS.md": "4c8e8c4609a4ad47ce33558cb8eb90d2c62655a3d16a18eaf96787d46abd5cfd",
+    "pre_protocol/DECISIONS.md": "4c7e0a222f30a9c653a9c8fa009eb84848cbce3236612ea333047dc22fd264bc",
+    "pre_protocol/RESEARCH_BOUNDS.md": "c835bb76e0351f6f9baba10491b5ad658675d8f22b06a64ac065e4619fd011b5",
+    "tsql-scriptdom-astgen/src/main/java/io/github/fupacat/AstCodeGenerator.java": "28cc642a26df3482404cdcaa0e0efc7bd3cb7c298d35086226be4b18c5042825",
+    "tsql-scriptdom-astgen/src/main/java/io/github/fupacat/AstModel.java": "32840343b93f89ca30db65f3b6e1760b266b097395da0c46b382f61627b7dd74",
+    "tsql-scriptdom-astgen/src/main/java/io/github/fupacat/AstSchemaParser.java": "0d84b1c8af2d22ed2cbe3055c7b4b54f25de74cbe684edb0ba55037bc5eeeaf4",
+    "tsql-scriptdom-astgen/src/test/java/io/github/fupacat/AstCodeGeneratorTest.java": "857ea268be7d88699bedbc60e16fb6ac07ce246ed6fe151b003f9d655ad9c4e4",
+    "tsql-scriptdom-astgen/src/test/java/io/github/fupacat/AstSchemaParserTest.java": "23bebdac72dcf61fb58e702d6fd9d1bdd577b9acd6eea26042b168de28affefe",
+    "tsql-scriptdom-core/src/main/java/io/github/fupacat/ParseError.java": "1b5538bba2009ab86c28c7bb0975bc7ba38cced2493e7d75d0411f5324d5feb6",
+    "tsql-scriptdom-core/src/main/java/io/github/fupacat/SqlCompatibilityValidator.java": "9305440172dbfaa02217453d25c41223ff1bc616fec8dd545ea1f269773e996f",
+    "tsql-scriptdom-core/src/main/java/io/github/fupacat/SqlVersion.java": "a4d94957cf27e78c01fcae0048a023e29ace36444269094ba2c84e56ef3de8ec",
+    "tsql-scriptdom-core/src/main/java/io/github/fupacat/TSql160Parser.java": "55e5add7a2c27f1f9c7920de2567f5ad840bafd1def0aeb06f85a1883c408300",
+    "tsql-scriptdom-core/src/main/java/io/github/fupacat/TSql160ParserBaseInternal.java": "a83b26e0638181205658b26872eda9b17af41db709aa561d50743d67b9ca7651",
+    "tsql-scriptdom-core/src/main/java/io/github/fupacat/TSql180Parser.java": "3ae1c67b3710c5d7ad61668a5b75176a015ec646d7b9cc34ab1c1638971e3033",
+    "tsql-scriptdom-core/src/main/java/io/github/fupacat/TSqlLexerBaseInternal.java": "98d7e9db8f96d70166177f644bda7edc4271a929e885df0588b870b9c8dc7c78",
+    "tsql-scriptdom-core/src/main/java/io/github/fupacat/TSqlParserToken.java": "ca70af199c17bcec134cb8903ca1f278f351d1fe0c664dda0e5dde102049e379",
+    "tsql-scriptdom-core/src/main/java/io/github/fupacat/TSqlTokenType.java": "c72b7defde7551ab4d0c1be9c2a0a585b3b574dd7f1d237d8a559e516e6cf9b9",
+    "tsql-scriptdom-core/src/main/java/io/github/fupacat/TSqlWhitespaceTokenFilter.java": "9662a1011ecfa988a118623fb4dca644b03a019a9b773979ab47f105b08a1ae1",
+    "tsql-scriptdom-core/src/test/java/io/github/fupacat/SqlCompatibilityValidatorTest.java": "f362c4bb3fa99ac302b4591e12d1847e9f8eb959285fd72cac9eebf9e22353e4",
+    "tsql-scriptdom-core/src/test/java/io/github/fupacat/SqlVersionTest.java": "07415413ee35578a50dbf4809311e724f9e9a2a1cc8575f61404a221d7e94c5f",
+    "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSql160ParserBaseInternalTest.java": "75d276488b7192b625abb3b6d2bd5e1b6fb05b0aa7538a0eaf74ef548eaa2973",
+    "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSql160ParserTest.java": "b5335fbdd661ad1ae3459522b69682d39d0a54f58c5014930a4702af5b72f0a6",
+    "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSql180ParserTest.java": "0b50c44f25b37b1a9abc33b304584ecee710ddbb18efb8dc8502ae2d6825eef9",
+    "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSqlCoreRuntimeTest.java": "4657a010c54ebe0ea94f4db961293748603601f751e034d4f31ee09683eddbe2",
+    "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSqlLexerBaseInternalTest.java": "8e124b0bae69ab64284a656455e8f8f42c99306f43cc276c84d9e709294f4260",
+    "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSqlParserTokenTest.java": "2a070290ec672e8c57fa850d6f7d1b3cbedbf66706ff261e24dc483e0ac0bceb",
+    "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSqlRegressionTest.java": "f9829ff5057e5b65117a8ee173da5d09ea52a80e011111742c4594c0ee7057cc",
+    "tsql-scriptdom-core/src/test/java/io/github/fupacat/TSqlWhitespaceTokenFilterTest.java": "4d6b472d6c27c1cce2f926e1ac8d30460c44c74474b1f0a05952ed34eb95d0e1"
+  },
+  "result": {},
+  "revision": ".mcswe/locks/05364834-c587-4ff1-91f3-50599ae9d1ff.json",
+  "rows": [
+    {
+      "requirement": "REQ-001",
+      "source": [
+        {
+          "exported": true,
+          "ids": [
+            "REQ-001"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-astgen/src/main/java/io/github/fupacat/AstSchemaParser.java",
+          "signature": {
+            "async": false,
+            "parameters": [
+              {
+                "annotation": "InputStream",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "inputStream"
+              }
+            ],
+            "return": "AstModel"
+          },
+          "span": [
+            8,
+            84
+          ],
+          "symbol": "AstSchemaParser.parse"
+        }
+      ],
+      "status": "FAILING",
+      "tests": []
+    },
+    {
+      "requirement": "REQ-002",
+      "source": [
+        {
+          "exported": true,
+          "ids": [
+            "REQ-002",
+            "REQ-003",
+            "REQ-004",
+            "REQ-005"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-astgen/src/main/java/io/github/fupacat/AstCodeGenerator.java",
+          "signature": {
+            "async": false,
+            "parameters": [
+              {
+                "annotation": "AstModel",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "model"
+              },
+              {
+                "annotation": "Path",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "outputDirectory"
+              }
+            ],
+            "return": "int"
+          },
+          "span": [
+            10,
+            37
+          ],
+          "symbol": "AstCodeGenerator.generate"
+        },
+        {
+          "exported": false,
+          "ids": [
+            "REQ-002"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-astgen/src/main/java/io/github/fupacat/AstCodeGenerator.java",
+          "signature": {
+            "async": false,
+            "parameters": [
+              {
+                "annotation": "Path",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "outputDirectory"
+              }
+            ],
+            "return": "int"
+          },
+          "span": [
+            40,
+            81
+          ],
+          "symbol": "AstCodeGenerator._generateBaseFragment"
+        },
+        {
+          "exported": false,
+          "ids": [
+            "REQ-002"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-astgen/src/main/java/io/github/fupacat/AstCodeGenerator.java",
+          "signature": {
+            "async": false,
+            "parameters": [
+              {
+                "annotation": "AstModel",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "model"
+              },
+              {
+                "annotation": "Path",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "outputDirectory"
+              }
+            ],
+            "return": "int"
+          },
+          "span": [
+            84,
+            99
+          ],
+          "symbol": "AstCodeGenerator._generateEnums"
+        },
+        {
+          "exported": false,
+          "ids": [
+            "REQ-002"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-astgen/src/main/java/io/github/fupacat/AstCodeGenerator.java",
+          "signature": {
+            "async": false,
+            "parameters": [
+              {
+                "annotation": "AstModel",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "model"
+              },
+              {
+                "annotation": "Path",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "outputDirectory"
+              }
+            ],
+            "return": "int"
+          },
+          "span": [
+            102,
+            112
+          ],
+          "symbol": "AstCodeGenerator._generateInterfaces"
+        },
+        {
+          "exported": false,
+          "ids": [
+            "REQ-002"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-astgen/src/main/java/io/github/fupacat/AstCodeGenerator.java",
+          "signature": {
+            "async": false,
+            "parameters": [
+              {
+                "annotation": "AstModel",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "model"
+              },
+              {
+                "annotation": "java.util.Set<String>",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "classNames"
+              },
+              {
+                "annotation": "Path",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "outputDirectory"
+              }
+            ],
+            "return": "int"
+          },
+          "span": [
+            115,
+            242
+          ],
+          "symbol": "AstCodeGenerator._generateClasses"
+        },
+        {
+          "exported": false,
+          "ids": [
+            "REQ-002"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-astgen/src/main/java/io/github/fupacat/AstCodeGenerator.java",
+          "signature": {
+            "async": false,
+            "parameters": [
+              {
+                "annotation": "String",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "rawType"
+              },
+              {
+                "annotation": "boolean",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "isCollection"
+              }
+            ],
+            "return": "com.squareup.javapoet.TypeName"
+          },
+          "span": [
+            292,
+            319
+          ],
+          "symbol": "AstCodeGenerator._resolveType"
+        }
+      ],
+      "status": "FAILING",
+      "tests": []
+    },
+    {
+      "requirement": "REQ-003",
+      "source": [
+        {
+          "exported": true,
+          "ids": [
+            "REQ-002",
+            "REQ-003",
+            "REQ-004",
+            "REQ-005"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-astgen/src/main/java/io/github/fupacat/AstCodeGenerator.java",
+          "signature": {
+            "async": false,
+            "parameters": [
+              {
+                "annotation": "AstModel",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "model"
+              },
+              {
+                "annotation": "Path",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "outputDirectory"
+              }
+            ],
+            "return": "int"
+          },
+          "span": [
+            10,
+            37
+          ],
+          "symbol": "AstCodeGenerator.generate"
+        },
+        {
+          "exported": false,
+          "ids": [
+            "REQ-003"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-astgen/src/main/java/io/github/fupacat/AstCodeGenerator.java",
+          "signature": {
+            "async": false,
+            "parameters": [
+              {
+                "annotation": "AstModel",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "model"
+              },
+              {
+                "annotation": "Path",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "outputDirectory"
+              }
+            ],
+            "return": "int"
+          },
+          "span": [
+            245,
+            265
+          ],
+          "symbol": "AstCodeGenerator._generateVisitor"
+        }
+      ],
+      "status": "FAILING",
+      "tests": []
+    },
+    {
+      "requirement": "REQ-004",
+      "source": [
+        {
+          "exported": true,
+          "ids": [
+            "REQ-002",
+            "REQ-003",
+            "REQ-004",
+            "REQ-005"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-astgen/src/main/java/io/github/fupacat/AstCodeGenerator.java",
+          "signature": {
+            "async": false,
+            "parameters": [
+              {
+                "annotation": "AstModel",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "model"
+              },
+              {
+                "annotation": "Path",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "outputDirectory"
+              }
+            ],
+            "return": "int"
+          },
+          "span": [
+            10,
+            37
+          ],
+          "symbol": "AstCodeGenerator.generate"
+        },
+        {
+          "exported": false,
+          "ids": [
+            "REQ-004"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-astgen/src/main/java/io/github/fupacat/AstCodeGenerator.java",
+          "signature": {
+            "async": false,
+            "parameters": [
+              {
+                "annotation": "AstModel",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "model"
+              },
+              {
+                "annotation": "Path",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "outputDirectory"
+              }
+            ],
+            "return": "int"
+          },
+          "span": [
+            268,
+            289
+          ],
+          "symbol": "AstCodeGenerator._generateConcreteVisitor"
+        }
+      ],
+      "status": "FAILING",
+      "tests": []
+    },
+    {
+      "requirement": "REQ-005",
+      "source": [
+        {
+          "exported": true,
+          "ids": [
+            "REQ-002",
+            "REQ-003",
+            "REQ-004",
+            "REQ-005"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-astgen/src/main/java/io/github/fupacat/AstCodeGenerator.java",
+          "signature": {
+            "async": false,
+            "parameters": [
+              {
+                "annotation": "AstModel",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "model"
+              },
+              {
+                "annotation": "Path",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "outputDirectory"
+              }
+            ],
+            "return": "int"
+          },
+          "span": [
+            10,
+            37
+          ],
+          "symbol": "AstCodeGenerator.generate"
+        }
+      ],
+      "status": "FAILING",
+      "tests": []
+    },
+    {
+      "requirement": "REQ-006",
+      "source": [
+        {
+          "exported": false,
+          "ids": [
+            "REQ-006"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-core/src/main/java/io/github/fupacat/TSqlParserToken.java",
+          "signature": {
+            "async": false,
+            "parameters": [],
+            "return": "int"
+          },
+          "span": [
+            26,
+            28
+          ],
+          "symbol": "TSqlParserToken._getOffset"
+        },
+        {
+          "exported": false,
+          "ids": [
+            "REQ-006"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-core/src/main/java/io/github/fupacat/TSqlParserToken.java",
+          "signature": {
+            "async": false,
+            "parameters": [],
+            "return": "TSqlTokenType"
+          },
+          "span": [
+            31,
+            33
+          ],
+          "symbol": "TSqlParserToken._getTokenType"
+        },
+        {
+          "exported": false,
+          "ids": [
+            "REQ-006"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-core/src/main/java/io/github/fupacat/TSqlTokenType.java",
+          "signature": {
+            "async": false,
+            "parameters": [],
+            "return": "boolean"
+          },
+          "span": [
+            107,
+            109
+          ],
+          "symbol": "TSqlTokenType._isComment"
+        },
+        {
+          "exported": false,
+          "ids": [
+            "REQ-006"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-core/src/main/java/io/github/fupacat/TSqlTokenType.java",
+          "signature": {
+            "async": false,
+            "parameters": [],
+            "return": "boolean"
+          },
+          "span": [
+            112,
+            114
+          ],
+          "symbol": "TSqlTokenType._isWhitespaceOrComment"
+        }
+      ],
+      "status": "FAILING",
+      "tests": []
+    },
+    {
+      "requirement": "REQ-007",
+      "source": [
+        {
+          "exported": true,
+          "ids": [
+            "REQ-007"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-core/src/main/java/io/github/fupacat/TSqlWhitespaceTokenFilter.java",
+          "signature": {
+            "async": false,
+            "parameters": [],
+            "return": "Token"
+          },
+          "span": [
+            42,
+            98
+          ],
+          "symbol": "TSqlWhitespaceTokenFilter.nextToken"
+        },
+        {
+          "exported": false,
+          "ids": [
+            "REQ-007"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-core/src/main/java/io/github/fupacat/TSqlWhitespaceTokenFilter.java",
+          "signature": {
+            "async": false,
+            "parameters": [],
+            "return": "boolean"
+          },
+          "span": [
+            101,
+            103
+          ],
+          "symbol": "TSqlWhitespaceTokenFilter._isQuotedIdentifier"
+        },
+        {
+          "exported": false,
+          "ids": [
+            "REQ-007"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-core/src/main/java/io/github/fupacat/TSqlWhitespaceTokenFilter.java",
+          "signature": {
+            "async": false,
+            "parameters": [],
+            "return": "TSqlParserToken"
+          },
+          "span": [
+            106,
+            108
+          ],
+          "symbol": "TSqlWhitespaceTokenFilter._getLastToken"
+        }
+      ],
+      "status": "FAILING",
+      "tests": []
+    },
+    {
+      "requirement": "REQ-008",
+      "source": [
+        {
+          "exported": false,
+          "ids": [
+            "REQ-008"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-core/src/main/java/io/github/fupacat/TSqlLexerBaseInternal.java",
+          "signature": {
+            "async": false,
+            "parameters": [
+              {
+                "annotation": "int",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "startOffset"
+              },
+              {
+                "annotation": "int",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "startLine"
+              },
+              {
+                "annotation": "int",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "startColumn"
+              },
+              {
+                "annotation": "java.io.Reader",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "input"
+              }
+            ],
+            "return": "void"
+          },
+          "span": [
+            17,
+            27
+          ],
+          "symbol": "TSqlLexerBaseInternal._initializeForNewInput"
+        },
+        {
+          "exported": false,
+          "ids": [
+            "REQ-008"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-core/src/main/java/io/github/fupacat/TSqlLexerBaseInternal.java",
+          "signature": {
+            "async": false,
+            "parameters": [],
+            "return": "int"
+          },
+          "span": [
+            30,
+            32
+          ],
+          "symbol": "TSqlLexerBaseInternal._getCurrentOffset"
+        },
+        {
+          "exported": false,
+          "ids": [
+            "REQ-008"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-core/src/main/java/io/github/fupacat/TSqlLexerBaseInternal.java",
+          "signature": {
+            "async": false,
+            "parameters": [],
+            "return": "void"
+          },
+          "span": [
+            35,
+            39
+          ],
+          "symbol": "TSqlLexerBaseInternal._newline"
+        },
+        {
+          "exported": false,
+          "ids": [
+            "REQ-008"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-core/src/main/java/io/github/fupacat/TSqlLexerBaseInternal.java",
+          "signature": {
+            "async": false,
+            "parameters": [
+              {
+                "annotation": "int",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "tokenType"
+              }
+            ],
+            "return": "antlr.Token"
+          },
+          "span": [
+            42,
+            50
+          ],
+          "symbol": "TSqlLexerBaseInternal._makeToken"
+        }
+      ],
+      "status": "FAILING",
+      "tests": []
+    },
+    {
+      "requirement": "REQ-009",
+      "source": [
+        {
+          "exported": true,
+          "ids": [
+            "REQ-009",
+            "REQ-010"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-core/src/main/java/io/github/fupacat/TSql160ParserBaseInternal.java",
+          "signature": {
+            "async": false,
+            "parameters": [],
+            "return": "List"
+          },
+          "span": [
+            35,
+            38
+          ],
+          "symbol": "TSql160ParserBaseInternal.getParseErrors"
+        },
+        {
+          "exported": false,
+          "ids": [
+            "REQ-009"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-core/src/main/java/io/github/fupacat/TSql160ParserBaseInternal.java",
+          "signature": {
+            "async": false,
+            "parameters": [
+              {
+                "annotation": "int",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "number"
+              },
+              {
+                "annotation": "int",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "offset"
+              },
+              {
+                "annotation": "int",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "line"
+              },
+              {
+                "annotation": "int",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "column"
+              },
+              {
+                "annotation": "String",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "message"
+              }
+            ],
+            "return": "void"
+          },
+          "span": [
+            41,
+            43
+          ],
+          "symbol": "TSql160ParserBaseInternal._addParseError"
+        },
+        {
+          "exported": false,
+          "ids": [
+            "REQ-009"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-core/src/main/java/io/github/fupacat/TSql160ParserBaseInternal.java",
+          "signature": {
+            "async": false,
+            "parameters": [
+              {
+                "annotation": "int",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "tokenType"
+              }
+            ],
+            "return": "boolean"
+          },
+          "span": [
+            46,
+            48
+          ],
+          "symbol": "TSql160ParserBaseInternal._isStatementRecoveryToken"
+        },
+        {
+          "exported": false,
+          "ids": [
+            "REQ-009"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-core/src/main/java/io/github/fupacat/TSql160ParserBaseInternal.java",
+          "signature": {
+            "async": false,
+            "parameters": [
+              {
+                "annotation": "int",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "tokenType"
+              }
+            ],
+            "return": "boolean"
+          },
+          "span": [
+            51,
+            53
+          ],
+          "symbol": "TSql160ParserBaseInternal._isBatchRecoveryToken"
+        },
+        {
+          "exported": false,
+          "ids": [
+            "REQ-009"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-core/src/main/java/io/github/fupacat/ParseError.java",
+          "signature": {
+            "async": false,
+            "parameters": [],
+            "return": "int"
+          },
+          "span": [
+            19,
+            21
+          ],
+          "symbol": "ParseError._getNumber"
+        },
+        {
+          "exported": false,
+          "ids": [
+            "REQ-009"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-core/src/main/java/io/github/fupacat/ParseError.java",
+          "signature": {
+            "async": false,
+            "parameters": [],
+            "return": "String"
+          },
+          "span": [
+            24,
+            26
+          ],
+          "symbol": "ParseError._getMessage"
+        }
+      ],
+      "status": "FAILING",
+      "tests": []
+    },
+    {
+      "requirement": "REQ-010",
+      "source": [
+        {
+          "exported": true,
+          "ids": [
+            "REQ-009",
+            "REQ-010"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-core/src/main/java/io/github/fupacat/TSql160ParserBaseInternal.java",
+          "signature": {
+            "async": false,
+            "parameters": [],
+            "return": "List"
+          },
+          "span": [
+            35,
+            38
+          ],
+          "symbol": "TSql160ParserBaseInternal.getParseErrors"
+        }
+      ],
+      "status": "FAILING",
+      "tests": []
+    },
+    {
+      "requirement": "REQ-011",
+      "source": [
+        {
+          "exported": true,
+          "ids": [
+            "REQ-011",
+            "REQ-012",
+            "REQ-013",
+            "REQ-014",
+            "REQ-015",
+            "REQ-016",
+            "REQ-017",
+            "REQ-018",
+            "REQ-019"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-core/src/main/java/io/github/fupacat/TSql160Parser.java",
+          "signature": {
+            "async": false,
+            "parameters": [
+              {
+                "annotation": "Reader",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "reader"
+              },
+              {
+                "annotation": "List",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "errors"
+              }
+            ],
+            "return": "TSqlFragment"
+          },
+          "span": [
+            24,
+            28
+          ],
+          "symbol": "TSql160Parser.parse"
+        }
+      ],
+      "status": "FAILING",
+      "tests": []
+    },
+    {
+      "requirement": "REQ-012",
+      "source": [
+        {
+          "exported": true,
+          "ids": [
+            "REQ-011",
+            "REQ-012",
+            "REQ-013",
+            "REQ-014",
+            "REQ-015",
+            "REQ-016",
+            "REQ-017",
+            "REQ-018",
+            "REQ-019"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-core/src/main/java/io/github/fupacat/TSql160Parser.java",
+          "signature": {
+            "async": false,
+            "parameters": [
+              {
+                "annotation": "Reader",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "reader"
+              },
+              {
+                "annotation": "List",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "errors"
+              }
+            ],
+            "return": "TSqlFragment"
+          },
+          "span": [
+            24,
+            28
+          ],
+          "symbol": "TSql160Parser.parse"
+        }
+      ],
+      "status": "FAILING",
+      "tests": []
+    },
+    {
+      "requirement": "REQ-013",
+      "source": [
+        {
+          "exported": true,
+          "ids": [
+            "REQ-011",
+            "REQ-012",
+            "REQ-013",
+            "REQ-014",
+            "REQ-015",
+            "REQ-016",
+            "REQ-017",
+            "REQ-018",
+            "REQ-019"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-core/src/main/java/io/github/fupacat/TSql160Parser.java",
+          "signature": {
+            "async": false,
+            "parameters": [
+              {
+                "annotation": "Reader",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "reader"
+              },
+              {
+                "annotation": "List",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "errors"
+              }
+            ],
+            "return": "TSqlFragment"
+          },
+          "span": [
+            24,
+            28
+          ],
+          "symbol": "TSql160Parser.parse"
+        }
+      ],
+      "status": "FAILING",
+      "tests": []
+    },
+    {
+      "requirement": "REQ-014",
+      "source": [
+        {
+          "exported": true,
+          "ids": [
+            "REQ-011",
+            "REQ-012",
+            "REQ-013",
+            "REQ-014",
+            "REQ-015",
+            "REQ-016",
+            "REQ-017",
+            "REQ-018",
+            "REQ-019"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-core/src/main/java/io/github/fupacat/TSql160Parser.java",
+          "signature": {
+            "async": false,
+            "parameters": [
+              {
+                "annotation": "Reader",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "reader"
+              },
+              {
+                "annotation": "List",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "errors"
+              }
+            ],
+            "return": "TSqlFragment"
+          },
+          "span": [
+            24,
+            28
+          ],
+          "symbol": "TSql160Parser.parse"
+        }
+      ],
+      "status": "FAILING",
+      "tests": []
+    },
+    {
+      "requirement": "REQ-015",
+      "source": [
+        {
+          "exported": true,
+          "ids": [
+            "REQ-011",
+            "REQ-012",
+            "REQ-013",
+            "REQ-014",
+            "REQ-015",
+            "REQ-016",
+            "REQ-017",
+            "REQ-018",
+            "REQ-019"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-core/src/main/java/io/github/fupacat/TSql160Parser.java",
+          "signature": {
+            "async": false,
+            "parameters": [
+              {
+                "annotation": "Reader",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "reader"
+              },
+              {
+                "annotation": "List",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "errors"
+              }
+            ],
+            "return": "TSqlFragment"
+          },
+          "span": [
+            24,
+            28
+          ],
+          "symbol": "TSql160Parser.parse"
+        }
+      ],
+      "status": "FAILING",
+      "tests": []
+    },
+    {
+      "requirement": "REQ-016",
+      "source": [
+        {
+          "exported": true,
+          "ids": [
+            "REQ-011",
+            "REQ-012",
+            "REQ-013",
+            "REQ-014",
+            "REQ-015",
+            "REQ-016",
+            "REQ-017",
+            "REQ-018",
+            "REQ-019"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-core/src/main/java/io/github/fupacat/TSql160Parser.java",
+          "signature": {
+            "async": false,
+            "parameters": [
+              {
+                "annotation": "Reader",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "reader"
+              },
+              {
+                "annotation": "List",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "errors"
+              }
+            ],
+            "return": "TSqlFragment"
+          },
+          "span": [
+            24,
+            28
+          ],
+          "symbol": "TSql160Parser.parse"
+        }
+      ],
+      "status": "FAILING",
+      "tests": []
+    },
+    {
+      "requirement": "REQ-017",
+      "source": [
+        {
+          "exported": true,
+          "ids": [
+            "REQ-011",
+            "REQ-012",
+            "REQ-013",
+            "REQ-014",
+            "REQ-015",
+            "REQ-016",
+            "REQ-017",
+            "REQ-018",
+            "REQ-019"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-core/src/main/java/io/github/fupacat/TSql160Parser.java",
+          "signature": {
+            "async": false,
+            "parameters": [
+              {
+                "annotation": "Reader",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "reader"
+              },
+              {
+                "annotation": "List",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "errors"
+              }
+            ],
+            "return": "TSqlFragment"
+          },
+          "span": [
+            24,
+            28
+          ],
+          "symbol": "TSql160Parser.parse"
+        }
+      ],
+      "status": "FAILING",
+      "tests": []
+    },
+    {
+      "requirement": "REQ-018",
+      "source": [
+        {
+          "exported": true,
+          "ids": [
+            "REQ-011",
+            "REQ-012",
+            "REQ-013",
+            "REQ-014",
+            "REQ-015",
+            "REQ-016",
+            "REQ-017",
+            "REQ-018",
+            "REQ-019"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-core/src/main/java/io/github/fupacat/TSql160Parser.java",
+          "signature": {
+            "async": false,
+            "parameters": [
+              {
+                "annotation": "Reader",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "reader"
+              },
+              {
+                "annotation": "List",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "errors"
+              }
+            ],
+            "return": "TSqlFragment"
+          },
+          "span": [
+            24,
+            28
+          ],
+          "symbol": "TSql160Parser.parse"
+        }
+      ],
+      "status": "FAILING",
+      "tests": []
+    },
+    {
+      "requirement": "REQ-019",
+      "source": [
+        {
+          "exported": true,
+          "ids": [
+            "REQ-011",
+            "REQ-012",
+            "REQ-013",
+            "REQ-014",
+            "REQ-015",
+            "REQ-016",
+            "REQ-017",
+            "REQ-018",
+            "REQ-019"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-core/src/main/java/io/github/fupacat/TSql160Parser.java",
+          "signature": {
+            "async": false,
+            "parameters": [
+              {
+                "annotation": "Reader",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "reader"
+              },
+              {
+                "annotation": "List",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "errors"
+              }
+            ],
+            "return": "TSqlFragment"
+          },
+          "span": [
+            24,
+            28
+          ],
+          "symbol": "TSql160Parser.parse"
+        }
+      ],
+      "status": "FAILING",
+      "tests": []
+    },
+    {
+      "requirement": "REQ-020",
+      "source": [
+        {
+          "exported": true,
+          "ids": [
+            "REQ-020"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-core/src/main/java/io/github/fupacat/SqlVersion.java",
+          "signature": {
+            "async": false,
+            "parameters": [],
+            "return": "int"
+          },
+          "span": [
+            23,
+            25
+          ],
+          "symbol": "SqlVersion.getCompatibilityLevel"
+        }
+      ],
+      "status": "FAILING",
+      "tests": []
+    },
+    {
+      "requirement": "REQ-021",
+      "source": [
+        {
+          "exported": true,
+          "ids": [
+            "REQ-021",
+            "REQ-023"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-core/src/main/java/io/github/fupacat/TSql180Parser.java",
+          "signature": {
+            "async": false,
+            "parameters": [
+              {
+                "annotation": "Reader",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "reader"
+              },
+              {
+                "annotation": "List",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "errors"
+              }
+            ],
+            "return": "TSqlFragment"
+          },
+          "span": [
+            30,
+            33
+          ],
+          "symbol": "TSql180Parser.parse"
+        }
+      ],
+      "status": "FAILING",
+      "tests": []
+    },
+    {
+      "requirement": "REQ-022",
+      "source": [
+        {
+          "exported": true,
+          "ids": [
+            "REQ-022"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-core/src/main/java/io/github/fupacat/SqlCompatibilityValidator.java",
+          "signature": {
+            "async": false,
+            "parameters": [
+              {
+                "annotation": "TSqlFragment",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "fragment"
+              },
+              {
+                "annotation": "SqlVersion",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "targetVersion"
+              }
+            ],
+            "return": "List"
+          },
+          "span": [
+            20,
+            23
+          ],
+          "symbol": "SqlCompatibilityValidator.validate"
+        }
+      ],
+      "status": "FAILING",
+      "tests": []
+    },
+    {
+      "requirement": "REQ-023",
+      "source": [
+        {
+          "exported": true,
+          "ids": [
+            "REQ-021",
+            "REQ-023"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-core/src/main/java/io/github/fupacat/TSql180Parser.java",
+          "signature": {
+            "async": false,
+            "parameters": [
+              {
+                "annotation": "Reader",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "reader"
+              },
+              {
+                "annotation": "List",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "errors"
+              }
+            ],
+            "return": "TSqlFragment"
+          },
+          "span": [
+            30,
+            33
+          ],
+          "symbol": "TSql180Parser.parse"
+        },
+        {
+          "exported": false,
+          "ids": [
+            "REQ-023"
+          ],
+          "kind": "function",
+          "path": "tsql-scriptdom-core/src/main/java/io/github/fupacat/TSql180Parser.java",
+          "signature": {
+            "async": false,
+            "parameters": [
+              {
+                "annotation": "Reader",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "reader"
+              },
+              {
+                "annotation": "List",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "errors"
+              },
+              {
+                "annotation": "SqlVersion",
+                "default": null,
+                "kind": "positional_or_keyword",
+                "name": "targetVersion"
+              }
+            ],
+            "return": "TSqlFragment"
+          },
+          "span": [
+            36,
+            68
+          ],
+          "symbol": "TSql180Parser._parse"
+        }
+      ],
+      "status": "FAILING",
+      "tests": []
+    }
+  ],
+  "run_id": "c14797eb-6c63-43ac-9803-a615b7af53fe",
+  "schema_version": 3,
+  "test_report": {}
+}

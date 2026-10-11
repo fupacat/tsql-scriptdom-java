@@ -15,6 +15,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class TSqlRegressionTest {
 
+    // TRACEABILITY_MAPPING: REQ-017, REQ-018, REQ-019
+    private Reader createBomAwareReader(InputStream stream) throws IOException {
+        byte[] bytes = stream.readAllBytes();
+        if (bytes.length >= 2 && bytes[0] == (byte) 0xFF && bytes[1] == (byte) 0xFE) {
+            return new StringReader(new String(bytes, StandardCharsets.UTF_16LE));
+        } else if (bytes.length >= 2 && bytes[0] == (byte) 0xFE && bytes[1] == (byte) 0xFF) {
+            return new StringReader(new String(bytes, StandardCharsets.UTF_16BE));
+        }
+        return new StringReader(new String(bytes, StandardCharsets.UTF_8));
+    }
+
     // TRACEABILITY_MAPPING: REQ-016
     @Test
     public void testResourceFilesAvailable() {
@@ -96,12 +107,12 @@ public class TSqlRegressionTest {
         "WaitForStatementTests.sql"
     })
     public void testUpstreamScriptParsesSuccessfully(String scriptFilename) throws Exception {
-        TSql160Parser parser = new TSql160Parser();
+        TSql180Parser parser = new TSql180Parser();
         InputStream stream = getClass().getResourceAsStream("/testscripts/" + scriptFilename);
         assertThat(stream).as("Test script resource %s must exist", scriptFilename).isNotNull();
 
         List<ParseError> errors = new ArrayList<>();
-        try (Reader reader = new InputStreamReader(stream, StandardCharsets.UTF_8)) {
+        try (Reader reader = createBomAwareReader(stream)) {
             TSqlFragment fragment = parser.parse(reader, errors);
             assertThat(fragment).as("Fragment for %s should not be null", scriptFilename).isNotNull();
             assertThat(fragment).isInstanceOf(TSqlScript.class);
@@ -111,7 +122,7 @@ public class TSqlRegressionTest {
     // TRACEABILITY_MAPPING: REQ-017, REQ-018, REQ-019
     @Test
     public void testAllUpstreamScriptsBatch() throws Exception {
-        TSql160Parser parser = new TSql160Parser();
+        TSql180Parser parser = new TSql180Parser();
         URL url = getClass().getResource("/testscripts");
         assertThat(url).isNotNull();
         File dir = new File(url.toURI());
@@ -124,7 +135,8 @@ public class TSqlRegressionTest {
 
         for (File file : files) {
             List<ParseError> errors = new ArrayList<>();
-            try (Reader reader = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8)) {
+            try (InputStream is = new FileInputStream(file);
+                 Reader reader = createBomAwareReader(is)) {
                 TSqlFragment fragment = parser.parse(reader, errors);
                 if (fragment != null) {
                     nonNullFragments++;

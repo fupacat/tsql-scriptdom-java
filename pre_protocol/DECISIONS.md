@@ -36,3 +36,7 @@
 - Status: [RESOLVED]
 - Decision: Ingest upstream SqlScriptDOM regression test scripts into tsql-scriptdom-core/src/test/resources/testscripts/ and execute parameterized JUnit 5 regression tests via TSql160Parser.
 
+## ADR-010
+- Status: [RESOLVED]
+- Decision: Upgrade parser engine from TSql160 to TSql180 superset grammar with SqlVersion enumeration and AST-based compatibility validation.
+

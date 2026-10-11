@@ -15,6 +15,8 @@ def main():
     antlr_out = core_dir / "target/generated-sources/antlr"
     
     os.makedirs(ast_out, exist_ok=True)
+    if antlr_out.exists():
+        shutil.rmtree(antlr_out)
     os.makedirs(antlr_out, exist_ok=True)
     
     # 1. Compile AstGenRunner if needed and run AST generator
@@ -39,13 +41,13 @@ def main():
     cp_run = f"{runner_bin}:{astgen_dir}/target/classes:{javapoet_jar}:{core_dir}/src/main/resources"
     subprocess.check_call([java_cmd, "-cp", cp_run, "scripts.AstGenRunner", str(ast_out)])
     
-    # 2. Inspect TSql160.g for AST enum constants and update AST enums
+    # 2. Inspect TSql180.g for AST enum constants and update AST enums
     print("Step 2: Updating AST enums with referenced constants...")
-    grammar_src = (core_dir / "src/main/resources/grammar/TSql160.g").read_text(encoding="utf-8")
+    grammar_src = (core_dir / "src/main/resources/grammar/TSql180.g").read_text(encoding="utf-8")
     
     matches = re.findall(r'\b([A-Z][a-zA-Z0-9_]*)\.([A-Z][a-zA-Z0-9_]*)\b', grammar_src)
     skip = {'System', 'String', 'Integer', 'Boolean', 'Token', 'Math', 'FragmentFactory',
-            'Debug', 'TSql160ParserInternal', 'Arrays', 'Collections', 'List',
+            'Debug', 'TSql160ParserInternal', 'TSql180ParserInternal', 'Arrays', 'Collections', 'List',
             'Int32', 'Decimal', 'SensitivityClassification',
             'PhaseOnePartialAstException', 'PhaseOneConstraintException',
             'TSql90ParserBaseInternal', 'ExternalFileOption'}
@@ -146,6 +148,79 @@ public class TSql90ParserBaseInternal {
 ''', encoding="utf-8"
     )
 
+    (antlr_out / "SqlCompatibilityInternalVisitor.java").write_text(
+        '''package io.github.fupacat;
+
+import io.github.fupacat.ast.CreateVectorIndexStatement;
+import io.github.fupacat.ast.TSqlConcreteFragmentVisitor;
+import io.github.fupacat.ast.TSqlFragment;
+import io.github.fupacat.ast.TemporalClause;
+import io.github.fupacat.ast.VectorDataTypeReference;
+import io.github.fupacat.ast.WindowClause;
+import java.util.ArrayList;
+import java.util.List;
+
+public class SqlCompatibilityInternalVisitor extends TSqlConcreteFragmentVisitor {
+
+    private final SqlVersion targetVersion;
+    private final List<ParseError> errors = new ArrayList<>();
+
+    public SqlCompatibilityInternalVisitor(SqlVersion targetVersion) {
+        this.targetVersion = targetVersion != null ? targetVersion : SqlVersion.SQL180;
+    }
+
+    @SuppressWarnings("rawtypes")
+    public static List validate(TSqlFragment fragment, SqlVersion targetVersion) {
+        SqlCompatibilityInternalVisitor visitor = new SqlCompatibilityInternalVisitor(targetVersion);
+        if (fragment != null) {
+            fragment.accept(visitor);
+        }
+        return visitor.errors;
+    }
+
+    @Override
+    public void visit(CreateVectorIndexStatement node) {
+        if (targetVersion.getCompatibilityLevel() < 170) {
+            errors.add(new ParseError(46001, node != null ? node.firstTokenIndex : 0, 1, 1,
+                    "Feature 'CREATE VECTOR INDEX' requires SQL Server 2025 (compatibility level 170) or higher. Target is compatibility level "
+                            + targetVersion.getCompatibilityLevel() + "."));
+        }
+        super.visit(node);
+    }
+
+    @Override
+    public void visit(VectorDataTypeReference node) {
+        if (targetVersion.getCompatibilityLevel() < 170) {
+            errors.add(new ParseError(46002, node != null ? node.firstTokenIndex : 0, 1, 1,
+                    "Feature 'VECTOR data type' requires SQL Server 2025 (compatibility level 170) or higher. Target is compatibility level "
+                            + targetVersion.getCompatibilityLevel() + "."));
+        }
+        super.visit(node);
+    }
+
+    @Override
+    public void visit(WindowClause node) {
+        if (targetVersion.getCompatibilityLevel() < 160) {
+            errors.add(new ParseError(46003, node != null ? node.firstTokenIndex : 0, 1, 1,
+                    "Feature 'WINDOW clause' requires SQL Server 2022 (compatibility level 160) or higher. Target is compatibility level "
+                            + targetVersion.getCompatibilityLevel() + "."));
+        }
+        super.visit(node);
+    }
+
+    @Override
+    public void visit(TemporalClause node) {
+        if (targetVersion.getCompatibilityLevel() < 130) {
+            errors.add(new ParseError(46004, node != null ? node.firstTokenIndex : 0, 1, 1,
+                    "Feature 'FOR SYSTEM_TIME temporal clause' requires SQL Server 2016 (compatibility level 130) or higher. Target is compatibility level "
+                            + targetVersion.getCompatibilityLevel() + "."));
+        }
+        super.visit(node);
+    }
+}
+''', encoding="utf-8"
+    )
+
     # 3d. TSqlLexerBaseInternalHelper
     (antlr_out / "TSqlLexerBaseInternalHelper.java").write_text(
         '''package io.github.fupacat;
@@ -171,7 +246,7 @@ public abstract class TSqlLexerBaseInternalHelper extends TSqlLexerBaseInternal 
 ''', encoding="utf-8"
     )
 
-    # 3e. TSql160ParserBaseInternalHelper
+    # 3e. TSql180ParserBaseInternalHelper
     helper_methods = [
         'AddBinaryExpression', 'CreateAutoCleanupDetail', 'CreateEventGroupContainer', 'CreateEventTypeContainer',
         'CreateIdentifierOrScalarExpressionFromIdentifier', 'CreateInternalError', 'CreateSetClauseColumn',
@@ -182,20 +257,21 @@ public abstract class TSqlLexerBaseInternalHelper extends TSqlLexerBaseInternal 
         'ParseSecurityObjectKind', 'ParseTriggerEnforcement', 'ParseUnionOptimizerHint',
         'ProcessNationalAndVarying', 'GetFirstToken',
         'AggregateAuthenticationType', 'AggregatePortType',
-        'RecognizeAesOrRc4', 'RecognizeAuthenticationProtocol', 'EnableDisableMatcher'
+        'RecognizeAesOrRc4', 'RecognizeAuthenticationProtocol', 'EnableDisableMatcher',
+        'ParseSecurityObjectKindTSql170'
     ]
     string_methods = [
         'Unquote', 'DecodeAsciiStringLiteral', 'DecodeUnicodeStringLiteral'
     ]
     boolean_methods = [
-        'NextTokenMatches', 'NextTokenMatchesOneOf', 'NextIdentifierMatchesOneOf',
-        'IsNextRuleBooleanParenthesis', 'IsNextRuleSelectParenthesis', 'IsStatementIsNext',
+        'NextIdentifierMatchesOneOf',
+        'IsNextRuleBooleanParenthesis', 'IsNextRuleSelectParenthesis',
         'IsStopAtBeforeMarkRestoreOption', 'IsGraphPseudoColumn',
         'IsAsciiStringLob', 'IsBinaryLiteralLob', 'IsUnicodeStringLob',
         'Match', 'MatchString', 'OptionValidForCreateDatabase',
         'RecognizeAlterLoginSecAdminPasswordOption',
         'RequiresEqualsSign', 'SplitNumericIntoIpParts', 'TryMatch', 'TryParse',
-        'TryParseOption', 'SkipGuessing'
+        'TryParseOption'
     ]
     void_methods = [
         'initialize', 'beginComplexToken', 'checkEOF', 'UpdateTokenInfo',
@@ -203,7 +279,7 @@ public abstract class TSqlLexerBaseInternalHelper extends TSqlLexerBaseInternal 
         'ThrowParseErrorException', 'ThrowIncorrectSyntaxErrorException',
         'ThrowPartialAstIfPhaseOne', 'ThrowConstraintIfPhaseOne',
         'ThrowSyntaxErrorIfNotCreateAlterTable', 'ResetQuotedIdentifiersSettingToInitial',
-        'SaveGuessing', 'AddConstraintToColumn',
+        'AddConstraintToColumn',
         'AddConstraintToComputedColumn',
         'AssignCopyColumnOptions', 'AssignValueToCopyOption',
         'CheckAndIncrementColumnCount', 'CheckBoundingBoxParameterDuplication',
@@ -241,7 +317,8 @@ public abstract class TSqlLexerBaseInternalHelper extends TSqlLexerBaseInternal 
         'UpdateBrokerPriorityEncounteredOptions',
         'UpdateDmlTriggerActionEncounteredOptions', 'ValidateCopyCredential',
         'ValidateSecret', 'VerifyAllowedIndexOption', 'VerifyAllowedIndexOption160',
-        'VerifyColumnDataType', 'CheckOptionDuplication'
+        'VerifyColumnDataType', 'CheckOptionDuplication',
+        'ValidateFetchApproximate', 'ValidateSemanticIndexExternalModel'
     ]
 
     h_lines = [
@@ -250,7 +327,7 @@ public abstract class TSqlLexerBaseInternalHelper extends TSqlLexerBaseInternal 
         'import io.github.fupacat.ast.*;',
         'import java.util.*;',
         '@SuppressWarnings({"unchecked", "rawtypes"})',
-        'public class TSql160ParserBaseInternalHelper extends TSql160ParserBaseInternal implements TSql160ParserInternalTokenTypes {',
+        'public class TSql180ParserBaseInternalHelper extends TSql160ParserBaseInternal implements TSql180ParserInternalTokenTypes {',
         '    public TSqlWhitespaceTokenFilter _tokenSource;',
         '    public boolean PhaseOne = false;',
         '    public int _acceptableGoOffset = 0;',
@@ -258,11 +335,11 @@ public abstract class TSqlLexerBaseInternalHelper extends TSqlLexerBaseInternal 
         '    public static class Debug { public static void Assert(boolean c) {} public static void Assert(boolean c, String m) {} }',
         '    public static final Object Undefined = null;',
         '    public int _ordinal(Object obj) { return (obj instanceof java.lang.Enum<?> e) ? e.ordinal() : 0; }',
-        '    public TSql160ParserBaseInternalHelper(boolean initialQuotedIdentifiersOn) { super(2); this.initialQuotedIdentifiersOn = initialQuotedIdentifiersOn; }',
-        '    public TSql160ParserBaseInternalHelper(antlr.TokenBuffer b, int k) { super(b, k); }',
-        '    public TSql160ParserBaseInternalHelper(antlr.TokenBuffer b) { super(b, 2); }',
-        '    public TSql160ParserBaseInternalHelper(antlr.TokenStream l, int k) { super(l, k); if (l instanceof TSqlWhitespaceTokenFilter filter) { this._tokenSource = filter; } }',
-        '    public TSql160ParserBaseInternalHelper(antlr.ParserSharedInputState s, int k) { super(s, k); }',
+        '    public TSql180ParserBaseInternalHelper(boolean initialQuotedIdentifiersOn) { super(2); this.initialQuotedIdentifiersOn = initialQuotedIdentifiersOn; }',
+        '    public TSql180ParserBaseInternalHelper(antlr.TokenBuffer b, int k) { super(b, k); }',
+        '    public TSql180ParserBaseInternalHelper(antlr.TokenBuffer b) { super(b, 2); }',
+        '    public TSql180ParserBaseInternalHelper(antlr.TokenStream l, int k) { super(l, k); if (l instanceof TSqlWhitespaceTokenFilter filter) { this._tokenSource = filter; } }',
+        '    public TSql180ParserBaseInternalHelper(antlr.ParserSharedInputState s, int k) { super(s, k); }',
         '    public ParseError GetUnexpectedTokenError(Object... args) { return new ParseError(102, 0, 1, 1, "Syntax error"); }',
         '    public RuntimeException GetUnexpectedTokenErrorException(Object... args) { return new TSqlParseErrorException(); }',
         '    public ParseError GetFaultTolerantUnexpectedTokenError(Object... args) { return GetUnexpectedTokenError(); }',
@@ -276,11 +353,18 @@ public abstract class TSqlLexerBaseInternalHelper extends TSqlLexerBaseInternal 
         '    public Literal GetIPv4FragmentFromNumberDotNumeric(Object... args) { return new IntegerLiteral(); }',
         '    public void AddAndUpdateTokenInfo(Object... args) { if (args.length >= 3 && args[1] instanceof java.util.List list && args[2] != null) { if (args[2] instanceof java.util.Collection<?> c) { list.addAll(c); } else { list.add(args[2]); } if (args[0] instanceof SchemaObjectName son) { int count = son.Identifiers.size(); if (count > 0) son.BaseIdentifier = son.Identifiers.get(count - 1); if (count > 1) son.SchemaIdentifier = son.Identifiers.get(count - 2); if (count > 2) son.DatabaseIdentifier = son.Identifiers.get(count - 3); if (count > 3) son.ServerIdentifier = son.Identifiers.get(count - 4); } } }',
         '    public void AddIdentifierToListWithCheck(Object... args) { if (args.length >= 2 && args[0] instanceof java.util.List list && args[1] != null) { if (args[1] instanceof java.util.Collection<?> c) { list.addAll(c); } else { list.add(args[1]); } } }',
-        '    public SqlDataTypeOption ParseDataType160(Object s) { if (s == null) return SqlDataTypeOption.None; String str = s.toString(); for (SqlDataTypeOption opt : SqlDataTypeOption.values()) { if (opt.name().equalsIgnoreCase(str)) return opt; } return SqlDataTypeOption.None; }',
-        '    public SqlDataTypeOption ParseDataType100(Object s) { return ParseDataType160(s); }',
+        '    public SqlDataTypeOption ParseDataType180(Object s) { if (s == null) return SqlDataTypeOption.None; String str = s.toString(); for (SqlDataTypeOption opt : SqlDataTypeOption.values()) { if (opt.name().equalsIgnoreCase(str)) return opt; } return SqlDataTypeOption.None; }',
+        '    public SqlDataTypeOption ParseDataType160(Object s) { return ParseDataType180(s); }',
+        '    public SqlDataTypeOption ParseDataType100(Object s) { return ParseDataType180(s); }',
         '    public boolean IsXml(Object... args) { if (args.length > 0 && args[0] != null) { String str = (args[0] instanceof Identifier id && id.Value != null) ? id.Value : args[0].toString(); return "xml".equalsIgnoreCase(str); } return false; }',
         '    public boolean IsSys(Object... args) { if (args.length > 0 && args[0] != null) { String str = (args[0] instanceof Identifier id && id.Value != null) ? id.Value : args[0].toString(); return "sys".equalsIgnoreCase(str); } return false; }',
         '    public boolean IsTableReference(Object... args) { try { return LA(1) != LeftParenthesis; } catch (Exception e) { return true; } }',
+        '    public boolean IsStatementIsNext(Object... args) { try { return (LA(1) != End || NextTokenMatches("CONVERSATION", 2)); } catch (Exception e) { return true; } }',
+        '    public boolean NextTokenMatches(Object... args) { if (args.length == 0 || args[0] == null) return false; String keyword = args[0].toString(); int which = (args.length > 1 && args[1] instanceof Number n) ? n.intValue() : 1; try { Token tok = LT(which); return (tok != null && tok.getType() != EOF && keyword.equalsIgnoreCase(tok.getText())); } catch (Exception e) { return false; } }',
+        '    public boolean NextTokenMatchesOneOf(Object... args) { try { Token tok = LT(1); if (tok == null || tok.getType() == EOF) return false; String text = tok.getText(); for (Object arg : args) { if (arg != null && text.equalsIgnoreCase(arg.toString())) return true; } } catch (Exception ignored) {} return false; }',
+        '    public boolean ContainsVectorInLookahead(Object... args) { for (int i = 1; i <= 100; i++) { try { Token token = LT(i); if (token == null || token.getType() == EOF) break; if (token.getType() == Identifier && "VECTOR".equalsIgnoreCase(token.getText())) return true; } catch (Exception e) { break; } } return false; }',
+        '    public boolean SkipGuessing(Object... args) throws antlr.RecognitionException { return false; }',
+        '    public void SaveGuessing(Object... args) throws antlr.RecognitionException {}',
         '    public void RecoverAtStatementLevel(Object... args) { try { while (LA(1) != EOF && LA(1) != Semicolon && LA(1) != Go) { consume(); } if (LA(1) == Semicolon) { consume(); } } catch (Exception ignored) {} }',
         '    public void RecoverAtBatchLevel(Object... args) { try { while (LA(1) != EOF && LA(1) != Go) { consume(); } if (LA(1) == Go) { consume(); } } catch (Exception ignored) {} }',
         '    public IdentifierLiteral CreateIdentifierLiteral(String val, QuoteType qt) { IdentifierLiteral il = new IdentifierLiteral(); il.Value = val; il.QuoteType = qt; return il; }',
@@ -302,7 +386,13 @@ public abstract class TSqlLexerBaseInternalHelper extends TSqlLexerBaseInternal 
     for m in void_methods:
         h_lines.append(f'    public void {m}(Object... args) {{}}')
     h_lines.append('}')
-    (antlr_out / "TSql160ParserBaseInternalHelper.java").write_text("\n".join(h_lines), encoding="utf-8")
+    (antlr_out / "TSql180ParserBaseInternalHelper.java").write_text("\n".join(h_lines), encoding="utf-8")
+    (antlr_out / "TSql160ParserBaseInternalHelper.java").write_text('''package io.github.fupacat;
+public class TSql160ParserBaseInternalHelper extends TSql180ParserBaseInternalHelper {
+    public TSql160ParserBaseInternalHelper(boolean q) { super(q); }
+    public TSql160ParserBaseInternalHelper(antlr.TokenStream l, int k) { super(l, k); }
+}
+''', encoding="utf-8")
 
     # 3f. Generate other *Helper classes
     all_helpers = set(re.findall(r'([A-Za-z0-9_]*Helper)\.Instance', grammar_src))
@@ -411,9 +501,9 @@ public class SubDmlFlags {
     tt_java = "header {\npackage io.github.fupacat;\n}\n\n" + tt_clean
     (antlr_out / "TSqlTokenTypes.g").write_text(tt_java, encoding="utf-8")
 
-    # 5. Translate TSql160.g
-    print("Step 5: Translating TSql160.g...")
-    g_raw = (core_dir / "src/main/resources/grammar/TSql160.g").read_text(encoding="utf-8")
+    # 5. Translate TSql180.g
+    print("Step 5: Translating TSql180.g...")
+    g_raw = (core_dir / "src/main/resources/grammar/TSql180.g").read_text(encoding="utf-8")
     
     g_text = re.sub(r'language\s*=\s*"CSharp";', 'language = "Java";', g_raw)
     g_text = re.sub(r'namespace\s*=\s*"[^"]*";', '', g_text)
@@ -431,13 +521,13 @@ import io.github.fupacat.ast.*;
     
     # Class declarations
     g_text = re.sub(
-        r'class\s+TSql160ParserInternal\s+extends\s+Parser\s*\("TSql160ParserBaseInternal"\)\s*;',
-        'class TSql160ParserInternal extends Parser("TSql160ParserBaseInternalHelper");',
+        r'class\s+TSql180ParserInternal\s+extends\s+Parser\s*\("TSql180ParserBaseInternal"\)\s*;',
+        'class TSql180ParserInternal extends Parser("TSql180ParserBaseInternalHelper");',
         g_text
     )
     g_text = re.sub(
-        r'class\s+TSql160LexerInternal\s+extends\s+Lexer\s*\("TSqlLexerBaseInternal"\)\s*;',
-        'class TSql160LexerInternal extends Lexer("TSqlLexerBaseInternalHelper");',
+        r'class\s+TSql180LexerInternal\s+extends\s+Lexer\s*\("TSqlLexerBaseInternal"\)\s*;',
+        'class TSql180LexerInternal extends Lexer("TSqlLexerBaseInternalHelper");',
         g_text
     )
     
@@ -447,13 +537,13 @@ import io.github.fupacat.ast.*;
     
     # Constructors
     g_text = re.sub(
-        r'(?:public\s+)?TSql160ParserInternal\s*\(\s*bool(?:ean)?\s+initialQuotedIdentifiersOn\s*\)\s*:\s*base\s*\(\s*initialQuotedIdentifiersOn\s*\)\s*\{',
-        'public TSql160ParserInternal(boolean initialQuotedIdentifiersOn) {\n        super(initialQuotedIdentifiersOn);',
+        r'(?:public\s+)?TSql180ParserInternal\s*\(\s*bool(?:ean)?\s+initialQuotedIdentifiersOn\s*\)\s*:\s*base\s*\(\s*initialQuotedIdentifiersOn\s*\)\s*\{',
+        'public TSql180ParserInternal(boolean initialQuotedIdentifiersOn) {\n        super(initialQuotedIdentifiersOn);',
         g_text
     )
     g_text = re.sub(
-        r'(?:public\s+)?TSql160LexerInternal\s*\(\s*\)\s*:\s*this\s*\(\s*new\s+System\.IO\.StringReader\s*\(\s*String\.Empty\s*\)\s*\)\s*\{',
-        'public TSql160LexerInternal() {\n        this(new java.io.StringReader(""));',
+        r'(?:public\s+)?TSql180LexerInternal\s*\(\s*\)\s*:\s*this\s*\(\s*new\s+System\.IO\.StringReader\s*\(\s*String\.Empty\s*\)\s*\)\s*\{',
+        'public TSql180LexerInternal() {\n        this(new java.io.StringReader(""));',
         g_text
     )
     
@@ -507,7 +597,6 @@ import io.github.fupacat.ast.*;
     g_text = re.sub(r'!\s*(?:int|Int32)\.TryParse\(\s*([^,]+),\s*(?:out\s+)?(?:int\s+)?(\w+)\s*\)', r'(tryParseIntVal(\1) == java.lang.Integer.MIN_VALUE)', g_text)
     g_text = re.sub(r'Enum\.TryParse\(.*?rank\)', 'true', g_text)
     g_text = re.sub(r'\bInt32\b', 'int', g_text)
-    g_text = re.sub(r'\bDecimal\b', 'double', g_text)
 
     # String and Culture conversions
     g_text = g_text.replace('System.Text.StringBuilder', 'StringBuilder')
@@ -615,16 +704,25 @@ import io.github.fupacat.ast.*;
     g_text = re.sub(r'encountered\s*\|=\s*', 'encountered = ', g_text)
     g_text = re.sub(r'pathOptionEncountered\s*\|=\s*', 'pathOptionEncountered = ', g_text)
 
-    (antlr_out / "TSql160.g").write_text(g_text, encoding="utf-8")
+    (antlr_out / "TSql180.g").write_text(g_text, encoding="utf-8")
 
     # 6. Run ANTLR 2.7.7 Tool
     print("Step 6: Running ANTLR 2.7.7 Tool...")
-    subprocess.check_call([java_cmd, "-cp", str(antlr_jar), "antlr.Tool", "-o", str(antlr_out), str(antlr_out / "TSqlTokenTypes.g")])
-    subprocess.check_call([java_cmd, "-cp", str(antlr_jar), "antlr.Tool", "-o", str(antlr_out), str(antlr_out / "TSql160.g")])
+    r1 = subprocess.run([java_cmd, "-cp", str(antlr_jar), "antlr.Tool", "-o", str(antlr_out), str(antlr_out / "TSqlTokenTypes.g")], stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, text=True)
+    if r1.returncode != 0:
+        import sys
+        sys.stderr.write(r1.stderr)
+        sys.exit(r1.returncode)
+
+    r2 = subprocess.run([java_cmd, "-cp", str(antlr_jar), "antlr.Tool", "-o", str(antlr_out), str(antlr_out / "TSql180.g")], stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, text=True)
+    if r2.returncode != 0:
+        import sys
+        sys.stderr.write(r2.stderr)
+        sys.exit(r2.returncode)
 
     # 7. Post-generation patch on generated files
     print("Step 7: Applying post-generation patches...")
-    p_file = antlr_out / "TSql160ParserInternal.java"
+    p_file = antlr_out / "TSql180ParserInternal.java"
     p_src = p_file.read_text(encoding="utf-8")
     
     p_src = re.sub(r'(\w+)\.Value\.Length\b', r'\1.Value.length()', p_src)
@@ -647,17 +745,34 @@ import io.github.fupacat.ast.*;
     p_src = p_src.replace('(encountered & JsonForClauseOptions.WithoutArrayWrapper) != 0', 'encountered == JsonForClauseOptions.WithoutArrayWrapper')
     p_src = p_src.replace('(encountered & JsonForClauseOptions.Root) != 0', 'encountered == JsonForClauseOptions.Root')
     p_src = re.sub(r'parameterNumber\.ToString\([^)]*\)', 'String.valueOf(parameterNumber)', p_src)
+    p_src = p_src.replace('.ToString()', '.toString()')
     p_src = re.sub(r'(?<!java\.lang\.)\bInteger\.parseInt\(', 'java.lang.Integer.parseInt(', p_src)
     p_src = re.sub(r'(?<!java\.lang\.)\bInteger\.MIN_VALUE\b', 'java.lang.Integer.MIN_VALUE', p_src)
     p_src = re.sub(r'(?<!java\.lang\.)\bDouble\.isNaN\(', 'java.lang.Double.isNaN(', p_src)
     p_file.write_text(p_src, encoding="utf-8")
     
-    l_file = antlr_out / "TSql160LexerInternal.java"
+    l_file = antlr_out / "TSql180LexerInternal.java"
     l_src = l_file.read_text(encoding="utf-8")
     l_src = l_src.replace('text.Length', 'text.length()')
     l_src = l_src.replace('text.ToString()', 'text.toString()')
     l_src = re.sub(r'String\.Equals\([^,]+,\s*CodeGenerationSupporter\.DollarPartition[^)]*\)', 'false', l_src)
     l_file.write_text(l_src, encoding="utf-8")
+    
+    (antlr_out / "TSql160ParserInternal.java").write_text('''package io.github.fupacat;
+public class TSql160ParserInternal extends TSql180ParserInternal {
+    public TSql160ParserInternal(antlr.TokenStream lexer) { super(lexer); }
+    public TSql160ParserInternal(antlr.TokenBuffer tokenBuf) { super(tokenBuf); }
+    public TSql160ParserInternal(boolean q) { super(q); }
+}
+''', encoding="utf-8")
+    (antlr_out / "TSql160LexerInternal.java").write_text('''package io.github.fupacat;
+public class TSql160LexerInternal extends TSql180LexerInternal {
+    public TSql160LexerInternal(java.io.Reader in) { super(in); }
+    public TSql160LexerInternal(antlr.InputBuffer ib) { super(ib); }
+    public TSql160LexerInternal(antlr.LexerSharedInputState state) { super(state); }
+    public TSql160LexerInternal() { super(); }
+}
+''', encoding="utf-8")
     
     print("Generation complete! All sources generated in target/generated-sources.")
 

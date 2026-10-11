@@ -42,7 +42,8 @@ tsql-scriptdom-java/
 ### Key Engineering Decisions
 
 * **Scope Reduction:** Upstream ScriptDOM contains 750 files dedicated to `ScriptGenerator` (formatting ASTs back into SQL text). Because static analysis and linters only **inspect** ASTs and never regenerate T-SQL scripts, `ScriptGenerator` is omitted. This reduces porting complexity by over 50%.
-* **Version Targeting:** Initial implementation targets **`TSql160` (SQL Server 2022)** as a superset parser, ensuring backwards-compatible parsing for ~99.9% of modern and legacy T-SQL constructs without the overhead of maintaining 11 separate parser versions.
+* **Superset Parser Architecture (`TSql180`):** The parser engine is powered by Microsoft's latest **`TSql180` grammar (SQL Server 2025 / Azure SQL bleeding-edge)**, including Vector search, vector indexes, DiskANN, JSON enhancements, and windowing.
+* **Compatibility Validation (`SqlCompatibilityValidator`):** Rather than bundling 12 separate ANTLR grammars (~1,000,000 lines of generated code and 25MB of JAR bloat), the library uses a single high-performance superset parser combined with an AST visitor `SqlCompatibilityValidator` that checks compatibility against any target `SqlVersion` (SQL Server 2000 / 80 through SQL Server 2025 / 180).
 * **Standard ANTLR 2 Runtime:** Powered by `antlr:antlr:2.7.7`, ensuring 100% pure Java execution with zero native binary or platform dependencies.
 
 ---
@@ -57,14 +58,16 @@ tsql-scriptdom-java/
 - [x] **Phase 2: Base Parser Runtime & Lexer**
   - [x] Port `TSqlTokenFilter` (comment and whitespace handling).
   - [x] Port `TSqlLexerBaseInternal` and `TSql160ParserBaseInternal` (predicate helpers and validation tables).
-- [x] **Phase 3: Grammar Translation (`TSql160.g`)**
-  - [x] Adapt C# semantic actions to Java in `TSql160.g` and `TSqlTokenTypes.g`.
-  - [x] Compile parser via ANTLR 2.7.7.
-  - [x] Implement public facade `TSql160Parser`.
+- [x] **Phase 3: Grammar Translation & Superset Parser (`TSql180.g`)**
+  - [x] Adapt C# semantic actions to Java in `TSql180.g` and `TSqlTokenTypes.g`.
+  - [x] Compile superset parser via ANTLR 2.7.7.
+  - [x] Implement public facade `TSql180Parser` and backwards-compatible `TSql160Parser`.
+  - [x] Implement `SqlVersion` enum (`SQL80` to `SQL180`) and `SqlCompatibilityValidator`.
 - [x] **Phase 4: Upstream Regression Verification**
-  - [x] Ingest upstream test scripts from Microsoft's test suite into parameterized JUnit 5 tests (489 scripts ingested, 93.9% AST yield, 82/82 JUnit tests passing).
-- [ ] **Phase 5: SonarQube Language Plugin (`sonar-tsql-plugin`)**
-  - [ ] Develop `sonar-tsql-plugin` providing syntax highlighting, CPD duplication, code metrics, and an initial catalog of 15-20 core quality & security rules.
+  - [x] Ingest upstream test scripts from Microsoft's test suite into parameterized JUnit 5 tests (489 scripts ingested, 95.1% AST yield, 86/86 JUnit tests passing).
+- [ ] **Phase 5: Standalone Packaging & SonarQube Language Plugin**
+  - [ ] Package standalone CLI / Maven Central artifact for downstream consumption.
+  - [ ] Develop `sonar-tsql-plugin` providing syntax highlighting, CPD duplication, code metrics, and an initial catalog of quality & security rules.
 
 ---
 

@@ -127,4 +127,86 @@
 }
 ```
 
+```json
+{
+  "kind": "interface",
+  "id": "IF-006",
+  "path": "tsql-scriptdom-core/src/main/java/io/github/fupacat/TSql180Parser.java",
+  "symbol": "TSql180Parser.parse",
+  "signature": {
+    "parameters": [
+      {
+        "name": "reader",
+        "kind": "positional_or_keyword",
+        "annotation": "Reader",
+        "default": null
+      },
+      {
+        "name": "errors",
+        "kind": "positional_or_keyword",
+        "annotation": "List",
+        "default": null
+      }
+    ],
+    "return": "TSqlFragment",
+    "async": false
+  },
+  "dependencies": [
+    "io.github.fupacat.ast.TSqlFragment",
+    "java.io.Reader",
+    "java.util.List"
+  ],
+  "exchanges": []
+}
+```
+
+```json
+{
+  "kind": "interface",
+  "id": "IF-007",
+  "path": "tsql-scriptdom-core/src/main/java/io/github/fupacat/SqlCompatibilityValidator.java",
+  "symbol": "SqlCompatibilityValidator.validate",
+  "signature": {
+    "parameters": [
+      {
+        "name": "fragment",
+        "kind": "positional_or_keyword",
+        "annotation": "TSqlFragment",
+        "default": null
+      },
+      {
+        "name": "targetVersion",
+        "kind": "positional_or_keyword",
+        "annotation": "SqlVersion",
+        "default": null
+      }
+    ],
+    "return": "List",
+    "async": false
+  },
+  "dependencies": [
+    "io.github.fupacat.SqlVersion",
+    "io.github.fupacat.ast.TSqlFragment",
+    "java.util.List"
+  ],
+  "exchanges": []
+}
+```
+
+```json
+{
+  "kind": "interface",
+  "id": "IF-008",
+  "path": "tsql-scriptdom-core/src/main/java/io/github/fupacat/SqlVersion.java",
+  "symbol": "SqlVersion.getCompatibilityLevel",
+  "signature": {
+    "parameters": [],
+    "return": "int",
+    "async": false
+  },
+  "dependencies": [],
+  "exchanges": []
+}
+```
+
 

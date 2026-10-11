@@ -23,29 +23,7 @@ public class TSql160Parser {
     // TRACEABILITY_MAPPING: REQ-011, REQ-012, REQ-013, REQ-014, REQ-015, REQ-016, REQ-017, REQ-018, REQ-019
     @SuppressWarnings({"unchecked", "rawtypes"})
     public TSqlFragment parse(Reader reader, List errors) throws Exception {
-        if (reader == null) {
-            return null;
-        }
-
-        TSql160LexerInternal lexer = new TSql160LexerInternal(reader);
-        TSqlWhitespaceTokenFilter filter = new TSqlWhitespaceTokenFilter(initialQuotedIdentifiersOn, lexer);
-        TSql160ParserInternal parser = new TSql160ParserInternal(filter);
-
-        TSqlFragment fragment = null;
-        try {
-            fragment = parser.script();
-        } catch (antlr.RecognitionException e) {
-            parser.getParseErrors().add(new ParseError(102, 0, e.getLine(), e.getColumn(), e.getMessage()));
-        } catch (antlr.TokenStreamException e) {
-            parser.getParseErrors().add(new ParseError(102, 0, 1, 1, e.getMessage()));
-        } catch (Exception e) {
-            parser.getParseErrors().add(new ParseError(102, 0, 1, 1, e.getMessage()));
-        }
-
-        if (errors != null) {
-            errors.addAll(parser.getParseErrors());
-        }
-
-        return fragment;
+        TSql180Parser delegate = new TSql180Parser(initialQuotedIdentifiersOn, SqlVersion.SQL160);
+        return delegate.parse(reader, errors);
     }
 }

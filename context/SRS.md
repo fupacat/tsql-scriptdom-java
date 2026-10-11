@@ -276,5 +276,63 @@
 }
 ```
 
+## Phase 4.1: TSql180 Superset Grammar and Version Compatibility
+
+[REQ-020] SqlVersion SHALL define enumeration values representing Microsoft SQL Server compatibility levels from SQL80 through SQL180.
+
+```json
+{
+  "requirement": "REQ-020",
+  "kind": "categorical",
+  "precondition": "caller references SqlVersion",
+  "action": "invoke SqlVersion getCompatibilityLevel",
+  "expected": "integer compatibility level returned corresponding to target SQL Server release",
+  "method": "junit",
+  "expected_output": "int"
+}
+```
+
+[REQ-021] TSql180Parser SHALL parse Transact-SQL statements using TSql180 grammar returning non-null TSqlFragment AST instances.
+
+```json
+{
+  "requirement": "REQ-021",
+  "kind": "categorical",
+  "precondition": "reader provided containing modern T-SQL text",
+  "action": "invoke TSql180Parser parse",
+  "expected": "non-null TSqlFragment returned",
+  "method": "junit",
+  "expected_output": "TSqlFragment"
+}
+```
+
+[REQ-022] SqlCompatibilityValidator SHALL traverse AST fragments and identify language features introduced above a target SqlVersion.
+
+```json
+{
+  "requirement": "REQ-022",
+  "kind": "categorical",
+  "precondition": "AST fragment and target SqlVersion provided",
+  "action": "invoke SqlCompatibilityValidator validate",
+  "expected": "list of compatibility error diagnostics returned identifying unsupported features",
+  "method": "junit",
+  "expected_output": "List"
+}
+```
+
+[REQ-023] TSql180Parser SHALL provide overloaded parse methods accepting a target SqlVersion and recording compatibility diagnostics for unsupported features.
+
+```json
+{
+  "requirement": "REQ-023",
+  "kind": "categorical",
+  "precondition": "reader and target SqlVersion provided",
+  "action": "invoke TSql180Parser parse with SqlVersion parameter",
+  "expected": "AST parsed and compatibility violations recorded in errors list",
+  "method": "junit",
+  "expected_output": "TSqlFragment"
+}
+```
+
 
 
