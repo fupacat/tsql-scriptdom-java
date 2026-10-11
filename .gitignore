@@ -1,5 +1,6 @@
 target/
 *.class
+dependency-reduced-pom.xml
 
 # Log files
 *.log

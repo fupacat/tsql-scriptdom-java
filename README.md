@@ -48,6 +48,90 @@ tsql-scriptdom-java/
 
 ---
 
+## 📦 Installation
+
+Add the dependency to your project:
+
+### Maven
+```xml
+<dependency>
+    <groupId>io.github.fupacat</groupId>
+    <artifactId>tsql-scriptdom-core</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+</dependency>
+```
+
+### Gradle
+```groovy
+implementation 'io.github.fupacat:tsql-scriptdom-core:0.1.0-SNAPSHOT'
+```
+
+> **Note:** `tsql-scriptdom-core` has **zero external transitive dependencies**. The ANTLR runtime is completely shaded and relocated internally (`io.github.fupacat.internal.antlr`) to eliminate classpath collisions.
+
+---
+
+## 🚀 Quickstart & Usage
+
+### 1. Basic Parsing
+```java
+import io.github.fupacat.ParseResult;
+import io.github.fupacat.TSqlParser;
+import io.github.fupacat.ast.TSqlScript;
+
+String sql = "SELECT u.id, u.username FROM dbo.Users AS u WHERE u.isActive = 1;";
+
+ParseResult<TSqlScript> result = TSqlParser.parse(sql);
+
+if (result.isSuccess()) {
+    TSqlScript script = result.fragment();
+    System.out.println("Parsed script batches: " + script.Batches.size());
+} else {
+    result.errors().forEach(err -> 
+        System.err.println("Line " + err.line + ", Col " + err.column + ": " + err.message)
+    );
+}
+```
+
+### 2. Inspecting the AST with Visitors
+```java
+import io.github.fupacat.ast.SelectStatement;
+import io.github.fupacat.ast.TSqlConcreteFragmentVisitor;
+
+result.fragment().accept(new TSqlConcreteFragmentVisitor() {
+    @Override
+    public void visit(SelectStatement selectStatement) {
+        System.out.println("Discovered SELECT query: " + selectStatement);
+    }
+});
+```
+
+### 3. Checking SQL Server Version Compatibility
+```java
+import io.github.fupacat.SqlVersion;
+
+// Check if modern SQL 2022/2025 syntax is valid on a legacy SQL Server 2016 target
+ParseResult<TSqlScript> legacyCheck = TSqlParser.parse(
+    "SELECT c1, SUM(c2) OVER w FROM dbo.t WINDOW w AS (PARTITION BY c1);",
+    SqlVersion.SQL130 // SQL Server 2016
+);
+
+if (legacyCheck.hasErrors()) {
+    legacyCheck.errors().forEach(e -> System.out.println("Incompatible: " + e.message));
+}
+```
+
+### 4. Standalone CLI Usage
+The packaged JAR can be executed directly as a standalone CLI to validate T-SQL queries or files:
+```bash
+# Validate inline T-SQL
+java -jar tsql-scriptdom-core-0.1.0-SNAPSHOT.jar "SELECT 1 FROM dbo.t;"
+
+# Validate a SQL script file
+java -jar tsql-scriptdom-core-0.1.0-SNAPSHOT.jar -f /path/to/script.sql
+```
+
+---
+
 ## 🗺️ Roadmap & Milestones
 
 - [x] **Phase 0:** Project scoping, upstream architectural audit, and repo initialization.
