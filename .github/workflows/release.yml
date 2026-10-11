@@ -109,11 +109,8 @@ jobs:
           if [ -n "$SONATYPE_USERNAME" ] && [ -n "$SONATYPE_PASSWORD" ] && [ -n "$OSSRH_GPG_SECRET_KEY" ]; then
             echo "Publishing to Maven Central via Sonatype Central Portal..."
             echo "$OSSRH_GPG_SECRET_KEY" | gpg --batch --import
-            printf '<settings><servers><server><id>central</id><username>%s</username><password>%s</password></server></servers></settings>' "$SONATYPE_USERNAME" "$SONATYPE_PASSWORD" > ~/.m2/settings-central.xml
-            # Remove local repository cache to prevent maven-metadata-local.xml from contaminating Central bundle
-            rm -rf ~/.m2/repository/io/github/fupacat
-            rm -rf target/central-staging target/central-publishing
-            mvn deploy -P release,central -s ~/.m2/settings-central.xml -Dgpg.passphrase="$OSSRH_GPG_PASSPHRASE" -DskipTests --batch-mode
+            VERSION="${{ steps.version_step.outputs.RELEASE_VERSION }}"
+            python3 scripts/publish_central.py "${VERSION}"
           else
             echo "Notice: Maven Central secrets (SONATYPE_USERNAME / SONATYPE_PASSWORD / OSSRH_GPG_SECRET_KEY) not configured. Skipping Maven Central deployment."
           fi
