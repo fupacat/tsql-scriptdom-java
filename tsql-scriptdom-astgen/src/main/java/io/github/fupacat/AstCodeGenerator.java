@@ -61,10 +61,12 @@ public class AstCodeGenerator {
                 .addMethod(com.squareup.javapoet.MethodSpec.methodBuilder("SetUnquotedIdentifier")
                         .addModifiers(javax.lang.model.element.Modifier.PUBLIC)
                         .addParameter(String.class, "identifier")
+                        .addStatement("this.Value = identifier")
                         .build())
                 .addMethod(com.squareup.javapoet.MethodSpec.methodBuilder("SetIdentifier")
                         .addModifiers(javax.lang.model.element.Modifier.PUBLIC)
                         .addParameter(String.class, "identifier")
+                        .addStatement("this.Value = identifier")
                         .build())
                 .addMethod(com.squareup.javapoet.MethodSpec.methodBuilder("accept")
                         .addModifiers(javax.lang.model.element.Modifier.PUBLIC, javax.lang.model.element.Modifier.ABSTRACT)
@@ -153,6 +155,23 @@ public class AstCodeGenerator {
                         .addModifiers(javax.lang.model.element.Modifier.PUBLIC)
                         .returns(int.class)
                         .addStatement("return size()")
+                        .build());
+            }
+
+            if ("Identifier".equals(c.name)) {
+                classBuilder.addMethod(com.squareup.javapoet.MethodSpec.methodBuilder("SetUnquotedIdentifier")
+                        .addAnnotation(Override.class)
+                        .addModifiers(javax.lang.model.element.Modifier.PUBLIC)
+                        .addParameter(String.class, "identifier")
+                        .addStatement("this.Value = identifier")
+                        .addStatement("super.Value = identifier")
+                        .build());
+                classBuilder.addMethod(com.squareup.javapoet.MethodSpec.methodBuilder("SetIdentifier")
+                        .addAnnotation(Override.class)
+                        .addModifiers(javax.lang.model.element.Modifier.PUBLIC)
+                        .addParameter(String.class, "identifier")
+                        .addStatement("this.Value = identifier")
+                        .addStatement("super.Value = identifier")
                         .build());
             }
 

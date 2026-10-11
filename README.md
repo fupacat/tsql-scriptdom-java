@@ -64,10 +64,35 @@ tsql-scriptdom-java/
   - [x] Implement public facade `TSql180Parser` and backwards-compatible `TSql160Parser`.
   - [x] Implement `SqlVersion` enum (`SQL80` to `SQL180`) and `SqlCompatibilityValidator`.
 - [x] **Phase 4: Upstream Regression Verification**
-  - [x] Ingest upstream test scripts from Microsoft's test suite into parameterized JUnit 5 tests (489 scripts ingested, 95.1% AST yield, 86/86 JUnit tests passing).
+  - [x] Ingest upstream test scripts from Microsoft's test suite into parameterized JUnit 5 tests (458 scripts verified, **100.0% pass rate**: 454 positive ASTs + 4 verified negative/deprecated syntax rejection tests, 90/90 JUnit tests passing).
 - [ ] **Phase 5: Standalone Packaging & SonarQube Language Plugin**
   - [ ] Package standalone CLI / Maven Central artifact for downstream consumption.
   - [ ] Develop `sonar-tsql-plugin` providing syntax highlighting, CPD duplication, code metrics, and an initial catalog of quality & security rules.
+
+---
+
+## 🔍 Dialect Scope & Syntax Support
+
+### Core SQL Server Engine (Supported)
+`tsql-scriptdom-java` provides full coverage of the standard Transact-SQL engine powering:
+* **Box SQL Server:** SQL Server 2000 (`SQL80`) through SQL Server 2025 (`SQL180`).
+* **Azure SQL:** Azure SQL Database, Azure SQL Managed Instance.
+* **Modern Features:** Vector search / distance metrics, vector indexes, DiskANN, JSON enhancements (`JSON_OBJECT`, `JSON_ARRAY`, `JSON_OBJECTAGG`, `JSON_ARRAYAGG`, `RETURNING JSON`), modern windowing, and graph tables.
+
+### Warehouse Dialects (Not Included in Core Engine)
+Specialized cloud data warehouse engines implement divergent syntax not present in the standard SQL Server database engine:
+* **Microsoft Fabric Data Warehouse (`EngineType.FabricDW`):** Fabric-specific statements such as `CLUSTER BY`, Fabric AI functions (`AI_GENERATE_RESPONSE`, `AI_SUMMARIZE`), and `ALTER EXTERNAL FUNCTION`.
+* **Azure Synapse / Azure SQL Data Warehouse (`EngineType.SqlDw`):** MPP distribution syntax such as `DISTRIBUTION = HASH(...)` / `ROUND_ROBIN` in `CREATE MATERIALIZED VIEW`, Azure DW `COPY INTO`, and workload classification for MPP.
+
+These warehouse scripts are omitted from the core engine test suite because they require warehouse-specific ANTLR grammar variants.
+
+### Obsolete Syntax & Negative Testing
+Transact-SQL has intentionally removed obsolete constructs across major versions:
+* `DISK INIT` (SQL Server 6.5 / 7.0 disk device management, removed in SQL Server 2005).
+* `DUMP DATABASE` and `LOAD DATABASE` (Sybase heritage commands, removed in SQL Server 2005/2008).
+* `FASTFIRSTROW` table hint (deprecated in SQL Server 2005/2008, removed in SQL Server 2012 / `TSql110`).
+
+In upstream Microsoft SqlScriptDOM, scripts testing these removed constructs (`MiscTests80.sql`, `DumpLoadStatement90Tests.sql`, `MiscDeprecatedIn110Tests.sql`) are marked as negative tests when evaluated against modern parsers (`TSql110` through `TSql180`). Our regression suite validates them as negative tests to guarantee that obsolete syntax is properly flagged and rejected by the modern `TSql180` grammar.
 
 ---
 

@@ -35521,6 +35521,7 @@ WS_CHAR_WO_NEWLINE
     |    '\u202f'               // Zs: Narrow No-Break Space
     |    '\u205f'               // Zs: Medium Mathematical Space
     |    '\u3000'               // Zs: Ideographic Space
+    |    '\ufeff'               // Byte Order Mark
     ;
 
 

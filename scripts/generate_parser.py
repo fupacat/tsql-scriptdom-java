@@ -82,14 +82,22 @@ def main():
     print("Step 3: Generating support classes in antlr directory...")
     
     # 3a. CodeGenerationSupporter
+    cs_supporter_file = core_dir / "src/main/resources/grammar/CodeGenerationSupporter.cs"
+    consts_dict = {}
+    if cs_supporter_file.exists():
+        cs_content = cs_supporter_file.read_text(encoding="utf-8")
+        consts_dict = dict(re.findall(r'internal const string\s+([A-Za-z0-9_]+)\s*=\s*(\"[^\"]*\");', cs_content))
+
     supporter_fields = []
     sup_matches = re.findall(r'CodeGenerationSupporter\.([A-Za-z0-9_]+)', grammar_src)
     for name in sorted(set(sup_matches)):
-        supporter_fields.append(f'    public static final String {name} = "{name}";')
+        val = consts_dict.get(name, f'"{name}"')
+        supporter_fields.append(f'    public static final String {name} = {val};')
     (antlr_out / "CodeGenerationSupporter.java").write_text(
         f'package io.github.fupacat;\npublic class CodeGenerationSupporter {{\n' + "\n".join(supporter_fields) + '\n}\n',
         encoding="utf-8"
     )
+
     
     # 3b. TSqlParserResource
     res_fields = []
@@ -248,7 +256,7 @@ public abstract class TSqlLexerBaseInternalHelper extends TSqlLexerBaseInternal 
 
     # 3e. TSql180ParserBaseInternalHelper
     helper_methods = [
-        'AddBinaryExpression', 'CreateAutoCleanupDetail', 'CreateEventGroupContainer', 'CreateEventTypeContainer',
+        'CreateAutoCleanupDetail', 'CreateEventGroupContainer', 'CreateEventTypeContainer',
         'CreateIdentifierOrScalarExpressionFromIdentifier', 'CreateInternalError', 'CreateSetClauseColumn',
         'CreateSimpleRestoreOptionWithValue', 'CreateStopRestoreOption', 'GetAlterIndexStatementKind',
         'GetOptionTypeByName', 'IdentifierOrValueExpression', 'NormalizeDatePartFunctionFirstParameter',
@@ -257,7 +265,7 @@ public abstract class TSqlLexerBaseInternalHelper extends TSqlLexerBaseInternal 
         'ParseSecurityObjectKind', 'ParseTriggerEnforcement', 'ParseUnionOptimizerHint',
         'ProcessNationalAndVarying', 'GetFirstToken',
         'AggregateAuthenticationType', 'AggregatePortType',
-        'RecognizeAesOrRc4', 'RecognizeAuthenticationProtocol', 'EnableDisableMatcher',
+        'RecognizeAesOrRc4', 'RecognizeAuthenticationProtocol',
         'ParseSecurityObjectKindTSql170'
     ]
     string_methods = [
@@ -265,7 +273,6 @@ public abstract class TSqlLexerBaseInternalHelper extends TSqlLexerBaseInternal 
     ]
     boolean_methods = [
         'NextIdentifierMatchesOneOf',
-        'IsNextRuleBooleanParenthesis', 'IsNextRuleSelectParenthesis',
         'IsStopAtBeforeMarkRestoreOption', 'IsGraphPseudoColumn',
         'IsAsciiStringLob', 'IsBinaryLiteralLob', 'IsUnicodeStringLob',
         'Match', 'MatchString', 'OptionValidForCreateDatabase',
@@ -340,11 +347,11 @@ public abstract class TSqlLexerBaseInternalHelper extends TSqlLexerBaseInternal 
         '    public TSql180ParserBaseInternalHelper(antlr.TokenBuffer b) { super(b, 2); }',
         '    public TSql180ParserBaseInternalHelper(antlr.TokenStream l, int k) { super(l, k); if (l instanceof TSqlWhitespaceTokenFilter filter) { this._tokenSource = filter; } }',
         '    public TSql180ParserBaseInternalHelper(antlr.ParserSharedInputState s, int k) { super(s, k); }',
-        '    public ParseError GetUnexpectedTokenError(Object... args) { return new ParseError(102, 0, 1, 1, "Syntax error"); }',
+        '    public ParseError GetUnexpectedTokenError(Object... args) { int line = 1, col = 1; String text = ""; try { Token tok = LT(1); if (tok != null) { line = tok.getLine(); col = tok.getColumn(); text = tok.getText(); } } catch (Exception ignored) {} return new ParseError(102, 0, line, col, "Syntax error near " + text); }',
         '    public RuntimeException GetUnexpectedTokenErrorException(Object... args) { return new TSqlParseErrorException(); }',
-        '    public ParseError GetFaultTolerantUnexpectedTokenError(Object... args) { return GetUnexpectedTokenError(); }',
-        '    public ParseError ProcessTokenStreamRecognitionException(Object... args) { return GetUnexpectedTokenError(); }',
-        '    public void AddParseError(Object error) { if (error instanceof ParseError e) getParseErrors().add(e); }',
+        '    public ParseError GetFaultTolerantUnexpectedTokenError(Object... args) { if (args.length > 0 && args[0] instanceof Token tok) { return new ParseError(102, 0, tok.getLine(), tok.getColumn(), "Unexpected token: " + tok.getText()); } return GetUnexpectedTokenError(args); }',
+        '    public ParseError ProcessTokenStreamRecognitionException(Object... args) { return GetUnexpectedTokenError(args); }',
+        '    public void AddParseError(Object error) { if (System.getProperty("DEBUG_PARSE") != null) new Exception("AddParseError: " + error).printStackTrace(); if (error instanceof ParseError e) getParseErrors().add(e); }',
         '    public Identifier CreateIdentifierFromToken(Token t) { Identifier id = new Identifier(); if (t != null) id.Value = t.getText(); return id; }',
         '    public Identifier CreateIdentifierFromLabel(Token t) { return CreateIdentifierFromToken(t); }',
         '    public void CreateIdentifierFromLabel(Token label, Identifier identifier, MultiPartIdentifier multiPartIdentifier) { if (identifier != null && label != null) identifier.Value = label.getText(); if (multiPartIdentifier != null && identifier != null) multiPartIdentifier.Identifiers.add(identifier); }',
@@ -376,6 +383,10 @@ public abstract class TSqlLexerBaseInternalHelper extends TSqlLexerBaseInternal 
         '    public double tryParseDoubleVal(String s) { try { return java.lang.Double.parseDouble(s); } catch (Exception e) { return java.lang.Double.NaN; } }',
         '    public void SetField(Object target, String field, Object value) { if (target == null) return; try { target.getClass().getField(field).set(target, value); } catch (Exception ignored) {} }',
         '    public Object GetField(Object target, String field) { if (target == null) return null; try { return target.getClass().getField(field).get(target); } catch (Exception ignored) { return null; } }',
+        '    public <T> T EnableDisableMatcher(Object... args) { if (args.length >= 3) { String txt = ""; if (args[0] instanceof Token t && t.getText() != null) txt = t.getText(); else if (args[0] instanceof Identifier id && id.Value != null) txt = id.Value; else if (args[0] != null) txt = args[0].toString(); if ("ENABLE".equalsIgnoreCase(txt)) return (T) args[1]; if ("DISABLE".equalsIgnoreCase(txt)) return (T) args[2]; return (T) args[1]; } return null; }',
+        '    public <T> T AddBinaryExpression(Object... args) { if (args.length >= 3) { if (args[0] instanceof ScalarExpression left && args[1] instanceof ScalarExpression right && args[2] instanceof BinaryExpressionType bet) { BinaryExpression be = new BinaryExpression(); be.FirstExpression = left; be.SecondExpression = right; be.BinaryExpressionType = bet; return (T) be; } if (args[0] instanceof BooleanExpression left && args[1] instanceof BooleanExpression right && args[2] instanceof BooleanBinaryExpressionType bbet) { BooleanBinaryExpression bbe = new BooleanBinaryExpression(); bbe.FirstExpression = left; bbe.SecondExpression = right; bbe.BinaryExpressionType = bbet; return (T) bbe; } } return (T) (args.length > 0 ? args[0] : null); }',
+        '    public boolean IsNextRuleSelectParenthesis(Object... args) { try { if (LA(1) == LeftParenthesis && LA(2) == Select) return true; int markSpot = mark(); boolean matches = false; try { consume(); int openParens = 1; while (true) { int la = LA(1); if (la == LeftParenthesis) { ++openParens; } else if (la == RightParenthesis) { --openParens; if (openParens == 0) break; } else if (la == EOF) { break; } else if (la == Join || la == Inner || la == Full || la == Cross || la == Outer || la == Union || la == Except || la == Intersect) { if (openParens == 1) { matches = true; break; } } consume(); } } finally { rewind(markSpot); } return matches; } catch (Exception e) { return false; } }',
+        '    public boolean IsNextRuleBooleanParenthesis(Object... args) { try { if (LA(1) != LeftParenthesis) return false; boolean matches = false; int markSpot = mark(); try { consume(); int openParens = 1; int caseDepth = 0; int topmostSelect = 0; java.util.ArrayDeque<Integer> iifParenLevels = new java.util.ArrayDeque<>(); boolean pendingIIf = false; while (true) { boolean isIIfOpeningParen = pendingIIf && LA(1) == LeftParenthesis; pendingIIf = false; int la = LA(1); if (la == Identifier) { if (NextTokenMatches("IIF")) { pendingIIf = true; } else if (NextTokenMatches("REGEXP_LIKE")) { if (caseDepth == 0 && topmostSelect == 0 && iifParenLevels.isEmpty()) { matches = true; break; } } } else if (la == LeftParenthesis) { ++openParens; if (isIIfOpeningParen) { iifParenLevels.push(openParens); } } else if (la == RightParenthesis) { if (openParens == topmostSelect) { topmostSelect = 0; } if (!iifParenLevels.isEmpty() && iifParenLevels.peek() == openParens) { iifParenLevels.pop(); } --openParens; if (openParens == 0) break; } else if (la == EOF) { break; } else if (la == And || la == Or || la == Not || la == EqualsSign || la == GreaterThan || la == LessThan || la == Bang || la == MultiplyEquals || la == RightOuterJoin || la == Is || la == In || la == Like || la == Between || la == Contains || la == FreeText || la == Exists || la == TSEqual || la == Update) { if (caseDepth == 0 && topmostSelect == 0 && iifParenLevels.isEmpty()) { matches = true; break; } } else if (la == Case) { ++caseDepth; } else if (la == End) { --caseDepth; } else if (la == Select) { if (topmostSelect == 0) { topmostSelect = openParens; } } consume(); } } finally { rewind(markSpot); } return matches; } catch (Exception e) { return false; } }',
     ]
     for m in string_methods:
         h_lines.append(f'    public String {m}(Object... args) {{ if (args.length > 0 && args[0] != null) return args[0].toString(); return ""; }}')
@@ -403,9 +414,28 @@ public class TSql160ParserBaseInternalHelper extends TSql180ParserBaseInternalHe
         if h in {'TSql160ParserBaseInternalHelper', 'TSqlLexerBaseInternalHelper'}:
             continue
         code = f'''package io.github.fupacat;
+import io.github.fupacat.ast.*;
 public class {h} {{
     public static final {h} Instance = new {h}();
-    public <T> T ParseOption(Object... args) {{ return null; }}
+    @SuppressWarnings("unchecked")
+    public <T> T ParseOption(Object... args) {{
+        if ("PseudoColumnHelper".equals("{h}") && args.length > 0 && args[0] != null) {{
+            String txt = (args[0] instanceof antlr.Token t && t.getText() != null) ? t.getText() : args[0].toString();
+            if ("$node_id".equalsIgnoreCase(txt)) return (T) ColumnType.PseudoColumnGraphNodeId;
+            if ("$edge_id".equalsIgnoreCase(txt)) return (T) ColumnType.PseudoColumnGraphEdgeId;
+            if ("$from_id".equalsIgnoreCase(txt)) return (T) ColumnType.PseudoColumnGraphFromId;
+            if ("$to_id".equalsIgnoreCase(txt)) return (T) ColumnType.PseudoColumnGraphToId;
+            return (T) ColumnType.Regular;
+        }}
+        if ("ServiceBrokerOptionsHelper".equals("{h}") && args.length > 0 && args[0] != null) {{
+            String txt = (args[0] instanceof antlr.Token t && t.getText() != null) ? t.getText() : args[0].toString();
+            for (ServiceBrokerOption opt : ServiceBrokerOption.values()) {{
+                if (opt.name().equalsIgnoreCase(txt)) return (T) opt;
+            }}
+            return (T) ServiceBrokerOption.DEFAULT;
+        }}
+        return null;
+    }}
     public boolean TryParseOption(Object... args) {{ return false; }}
     public boolean RequiresEqualsSign(Object... args) {{ return false; }}
     public static boolean IsGraphPseudoColumn(Object... args) {{ return false; }}
@@ -595,6 +625,7 @@ import io.github.fupacat.ast.*;
     g_text = re.sub(r'(?:int|Int32)\.TryParse\(\s*([^,]+),\s*NumberStyles\.Integer,\s*CultureInfo\.InvariantCulture,\s*(?:out\s+)?(\w+)\s*\)', r'(( \2 = tryParseIntVal(\1) ) != java.lang.Integer.MIN_VALUE)', g_text)
     g_text = re.sub(r'(?:double|Decimal)\.TryParse\(\s*([^,]+),\s*NumberStyles\.Float,\s*CultureInfo\.InvariantCulture,\s*(?:out\s+)?(\w+)\s*\)', r'(!java.lang.Double.isNaN( \2 = tryParseDoubleVal(\1) ))', g_text)
     g_text = re.sub(r'!\s*(?:int|Int32)\.TryParse\(\s*([^,]+),\s*(?:out\s+)?(?:int\s+)?(\w+)\s*\)', r'(tryParseIntVal(\1) == java.lang.Integer.MIN_VALUE)', g_text)
+    g_text = re.sub(r'\b(?:int|Int32)\.Parse\(([^,)]+)[^)]*\)', r'java.lang.Integer.parseInt(\1)', g_text)
     g_text = re.sub(r'Enum\.TryParse\(.*?rank\)', 'true', g_text)
     g_text = re.sub(r'\bInt32\b', 'int', g_text)
 
@@ -603,17 +634,19 @@ import io.github.fupacat.ast.*;
     g_text = g_text.replace('text.ToString()', 'text.toString()')
     g_text = g_text.replace('vStringBuilder.Append', 'vStringBuilder.append')
     g_text = g_text.replace('vStringBuilder.ToString()', 'vStringBuilder.toString()')
-    g_text = re.sub(
-        r'vResult\.FunctionName\.Value\.ToUpper\(\s*CultureInfo\.InvariantCulture\s*\)\s*==\s*([A-Za-z0-9_.]+)',
-        r'(vResult.FunctionName.Value != null && vResult.FunctionName.Value.equalsIgnoreCase(\1))',
-        g_text
-    )
+    # CodeGenerationSupporter comparisons
+    g_text = re.sub(r'([A-Za-z0-9_.]+)\.ToUpper\(\s*CultureInfo\.InvariantCulture\s*\)', r'\1', g_text)
+    g_text = re.sub(r'([A-Za-z0-9_.]+(?:\([^)]*\))?)\s*==\s*(CodeGenerationSupporter\.[A-Za-z0-9_]+)', r'\2.equalsIgnoreCase(\1)', g_text)
+    g_text = re.sub(r'([A-Za-z0-9_.]+(?:\([^)]*\))?)\s*!=\s*(CodeGenerationSupporter\.[A-Za-z0-9_]+)', r'(!\2.equalsIgnoreCase(\1))', g_text)
+    g_text = re.sub(r'(CodeGenerationSupporter\.[A-Za-z0-9_]+)\s*==\s*([A-Za-z0-9_.]+(?:\([^)]*\))?)', r'\1.equalsIgnoreCase(\2)', g_text)
+    g_text = re.sub(r'(CodeGenerationSupporter\.[A-Za-z0-9_]+)\s*!=\s*([A-Za-z0-9_.]+(?:\([^)]*\))?)', r'(!\1.equalsIgnoreCase(\2))', g_text)
     g_text = re.sub(r'\.ToUpper\(\s*CultureInfo\.InvariantCulture\s*\)', '.toUpperCase()', g_text)
     g_text = re.sub(r'[sS]tring\.Format\(\s*culture,\s*"\{0\}\s+\{1\}",\s*([^,]+),\s*([^)]+)\)', r'(\1 + " " + \2)', g_text)
     g_text = re.sub(r'\.StartsWith\(\s*([^,]+),\s*StringComparison\.\w+\s*\)', r'.startsWith(\1)', g_text)
     g_text = g_text.replace('ExpressionFlags.MatchClauseAllowed != (expressionFlags & ExpressionFlags.MatchClauseAllowed)', 'expressionFlags != ExpressionFlags.MatchClauseAllowed')
     g_text = re.sub(r'String\.Equals\(\s*([^,]+),\s*([^,]+),\s*StringComparison\.OrdinalIgnoreCase\s*\)', r'((\1) != null && (\1).equalsIgnoreCase(\2))', g_text)
     g_text = re.sub(r'\b([A-Za-z0-9_]+(?:\([^)]*\))?(?:\.[A-Za-z0-9_]+(?:\([^)]*\))*)*)\.Equals\(\s*([^,]+),\s*StringComparison\.OrdinalIgnoreCase\s*\)', r'(\2.equalsIgnoreCase(\1))', g_text)
+
 
     # State and Enum initializations
     g_text = g_text.replace('Literal fragment1, fragment2;', 'Literal fragment1 = null, fragment2 = null;')
@@ -662,13 +695,15 @@ import io.github.fupacat.ast.*;
     g_text = re.sub(r'\b([A-Z][a-zA-Z0-9_]*)\?\s+([a-z][a-zA-Z0-9_]*)', r'\1 \2', g_text)
     g_text = re.sub(r'\b([A-Z][a-zA-Z0-9_]*)\?\b', r'\1', g_text)
     
-    # Parameter qualifiers
+    # Parameter qualifiers and ref binary expression
+    g_text = re.sub(r'AddBinaryExpression\(\s*ref\s+([^,]+)\s*,\s*([^,]+)\s*,\s*([^)]+)\)', r'\1 = AddBinaryExpression(\1, \2, \3)', g_text)
     g_text = re.sub(r'\bref\s+', '', g_text)
     g_text = re.sub(r'\bout\s+', '', g_text)
     
     # Operators: is -> instanceof, as -> cast
     g_text = re.sub(r'\s+is\s+([A-Za-z0-9_]+)', r' instanceof \1', g_text)
-    g_text = re.sub(r'([A-Za-z0-9_.]+)\s+as\s+([A-Za-z0-9_]+)', r'(( \2 ) (Object) ( \1 ))', g_text)
+    g_text = re.sub(r'([A-Za-z0-9_.]+)\s+as\s+([A-Za-z0-9_]+)', r'((\1) instanceof \2 ? (\2)(\1) : null)', g_text)
+
     
     # foreach (var x in y) -> for (var x : y)
     g_text = re.sub(r'foreach\s*\(\s*var\s+([A-Za-z0-9_]+)\s+in\s+([^)]+)\)', r'for (var \1 : \2)', g_text)
@@ -733,10 +768,11 @@ import io.github.fupacat.ast.*;
     p_src = re.sub(r'\(int\)\s*vExternalTableOption\.OptionKind', r'_ordinal(vExternalTableOption.OptionKind)', p_src)
     p_src = re.sub(r'_tokenSource\.LastToken\.Offset', r'(_tokenSource != null && _tokenSource._getLastToken() != null ? _tokenSource._getLastToken().offset : 0)', p_src)
     p_src = re.sub(r'int\.TryParse\([^)]+\)', 'true', p_src)
-    p_src = re.sub(r'int\.Parse\(([^,]+)[^)]*\)', r'java.lang.Integer.parseInt(\1)', p_src)
+    p_src = re.sub(r'\b(?:int|Int32)\.Parse\(([^,)]+)[^)]*\)', r'java.lang.Integer.parseInt(\1)', p_src)
     p_src = re.sub(r'\bint\.(InsideSubDml|SelectNotForInsert|UpdateDeleteFrom|MergeUsing|None)\b', r'SubDmlFlags.\1', p_src)
     p_src = re.sub(r'\bSubDmlFlags\s+subDmlFlags\b', 'int subDmlFlags', p_src)
     p_src = re.sub(r'\bcase\s+[A-Za-z0-9_]+\.([A-Za-z0-9_]+)\s*:', r'case \1:', p_src)
+    p_src = re.sub(r'switch\s*\(\s*([A-Za-z0-9_.]+(?:\.[A-Za-z0-9_]+)*)\s*\)', r'if (\1 != null) switch (\1)', p_src)
     p_src = p_src.replace('encounteredOptions = encounteredOptions | vOption.Kind;', 'encounteredOptions = vOption.Kind;')
     p_src = p_src.replace('((encountered & PayloadOptionKinds.Role) != PayloadOptionKinds.Role)', '(encountered != PayloadOptionKinds.Role)')
     p_src = p_src.replace('(vResult.Options & SetOptions.QuotedIdentifier) == SetOptions.QuotedIdentifier', 'vResult.Options == SetOptions.QuotedIdentifier')
