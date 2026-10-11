@@ -17,7 +17,7 @@ We take the security of `tsql-scriptdom-java` seriously. If you believe you have
 Please report vulnerabilities privately via [GitHub's Advisory tab](https://github.com/fupacat/tsql-scriptdom-java/security/advisories/new). This allows us to assess the issue, coordinate a fix, and publish an advisory without premature public disclosure.
 
 ### Direct Contact
-If Private Vulnerability Reporting is unavailable, please open a confidential issue or contact the repository maintainer directly via GitHub profile contact information.
+If Private Vulnerability Reporting is unavailable, please reach out to the project maintainer directly via the contact information on their GitHub profile. **Please do not report security vulnerabilities in public GitHub issues.**
 
 ### What to Include
 When reporting a vulnerability, please provide:
