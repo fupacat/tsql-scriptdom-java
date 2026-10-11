@@ -149,9 +149,13 @@ java -jar tsql-scriptdom-core-0.1.0-SNAPSHOT.jar -f /path/to/script.sql
   - [x] Implement `SqlVersion` enum (`SQL80` to `SQL180`) and `SqlCompatibilityValidator`.
 - [x] **Phase 4: Upstream Regression Verification**
   - [x] Ingest upstream test scripts from Microsoft's test suite into parameterized JUnit 5 tests (458 scripts verified, **100.0% pass rate**: 454 positive ASTs + 4 verified negative/deprecated syntax rejection tests, 90/90 JUnit tests passing).
-- [ ] **Phase 5: Standalone Packaging & SonarQube Language Plugin**
-  - [ ] Package standalone CLI / Maven Central artifact for downstream consumption.
-  - [ ] Develop `sonar-tsql-plugin` providing syntax highlighting, CPD duplication, code metrics, and an initial catalog of quality & security rules.
+- [x] **Phase 5: Standalone Packaging, CI/CD, & Distribution**
+  - [x] Package shaded standalone CLI (`tsql-scriptdom-core`) with zero external runtime dependencies.
+  - [x] High-level facade (`TSqlParser`, `ParseResult`) and AST visitor traversal API.
+  - [x] CI/CD multi-JDK test matrix (Java 17 & 21), automated release workflow, and GitHub Packages / Maven Central distribution.
+- [ ] **Phase 6: SonarQube Language Plugin (`sonar-tsql-plugin`)**
+  - [ ] Standalone companion repository consuming `tsql-scriptdom-core`.
+  - [ ] Syntax highlighting, CPD duplication, code metrics, and AST-based quality & security rules.
 
 ---
 
