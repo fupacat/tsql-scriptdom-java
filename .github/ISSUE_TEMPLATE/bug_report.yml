@@ -1,0 +1,40 @@
+name: Bug Report
+description: Report unexpected parser behavior, syntax errors, or AST discrepancies
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug! Please ensure you have checked existing issues and the upstream SqlScriptDOM behavior if applicable.
+  - type: textarea
+    id: tsql-sample
+    attributes:
+      label: T-SQL Sample Script
+      description: Provide the minimal reproducible T-SQL snippet that reproduces the issue.
+      placeholder: |
+        SELECT 1 FROM my_table;
+    validations:
+      required: true
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected Behavior
+      description: What should happen (e.g. successfully parse into SelectStatement AST node, match upstream C# SqlScriptDOM output)?
+    validations:
+      required: true
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: Actual Behavior
+      description: What actually happens (e.g. ParseException, stack trace, or incorrect AST hierarchy)?
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: JDK version, OS, and tsql-scriptdom-java version used.
+      placeholder: OpenJDK 17 / Ubuntu 22.04 / 0.1.0-SNAPSHOT
+    validations:
+      required: false
