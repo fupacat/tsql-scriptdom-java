@@ -6,6 +6,8 @@ import antlr.TokenStream;
 public class TSqlWhitespaceTokenFilter implements TokenStream {
 
     private final java.util.List<TSqlParserToken> streamToFilter;
+    private final java.util.List<TSqlParserToken> scriptTokenStream = new java.util.ArrayList<>();
+    private final java.util.IdentityHashMap<Token, Integer> tokenIndices = new java.util.IdentityHashMap<>();
     private int currentTokenIndex = 0;
     private boolean quotedIdentifier = true;
     public boolean QuotedIdentifier = true;
@@ -56,10 +58,14 @@ public class TSqlWhitespaceTokenFilter implements TokenStream {
                     lastToken.setLine(token.getLine());
                     lastToken.setColumn(token.getColumn());
                 }
+                tokenIndices.put(token, scriptTokenStream.size());
+                scriptTokenStream.add(lastToken);
                 return token;
             }
             Token eofToken = new antlr.CommonToken(TSqlTokenTypes.EOF, "");
             lastToken = new TSqlParserToken(TSqlTokenType.EndOfFile, "");
+            tokenIndices.put(eofToken, scriptTokenStream.size());
+            scriptTokenStream.add(lastToken);
             return eofToken;
         }
         TSqlParserToken token = null;
@@ -94,6 +100,8 @@ public class TSqlWhitespaceTokenFilter implements TokenStream {
         }
 
         lastToken = token;
+        tokenIndices.put(token, scriptTokenStream.size());
+        scriptTokenStream.add(token);
         return token;
     }
 
@@ -105,5 +113,16 @@ public class TSqlWhitespaceTokenFilter implements TokenStream {
     // TRACEABILITY_MAPPING: REQ-007
     public TSqlParserToken _getLastToken() {
         return lastToken;
+    }
+
+    // TRACEABILITY_MAPPING: REQ-007
+    public java.util.List<TSqlParserToken> _getScriptTokenStream() {
+        return scriptTokenStream;
+    }
+
+    // TRACEABILITY_MAPPING: REQ-007
+    public int _getTokenIndex(Token token) {
+        Integer index = tokenIndices.get(token);
+        return index != null ? index : -1;
     }
 }

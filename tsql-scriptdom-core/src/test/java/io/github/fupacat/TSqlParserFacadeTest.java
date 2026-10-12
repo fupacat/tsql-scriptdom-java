@@ -1,9 +1,11 @@
 package io.github.fupacat;
 
 import io.github.fupacat.ast.SelectStatement;
+import io.github.fupacat.ast.TSqlBatch;
 import io.github.fupacat.ast.TSqlConcreteFragmentVisitor;
 import io.github.fupacat.ast.TSqlFragment;
 import io.github.fupacat.ast.TSqlScript;
+import io.github.fupacat.ast.TSqlStatement;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
@@ -82,6 +84,23 @@ public class TSqlParserFacadeTest {
 
         ParseResult<TSqlScript> result = parser.parseScript(new StringReader("PRINT 'OK';"));
         assertThat(result.isSuccess()).isTrue();
+    }
+
+    @Test
+    public void testParsePopulatesScriptTokenStreamAndTokenBounds() {
+        ParseResult<TSqlScript> result = TSqlParser.parse("SELECT 1 AS a; SELECT 2 AS b;");
+
+        assertThat(result.isSuccess()).isTrue();
+        assertThat(result.fragment()).isNotNull();
+        assertThat(result.fragment().ScriptTokenStream).isNotEmpty();
+        assertThat(result.fragment().lastTokenIndex).isEqualTo(result.fragment().ScriptTokenStream.size() - 1);
+
+        TSqlBatch batch = result.fragment().Batches.get(0);
+        assertThat(batch.lastTokenIndex).isGreaterThan(batch.firstTokenIndex);
+
+        TSqlStatement firstStatement = batch.Statements.get(0);
+        assertThat(firstStatement.lastTokenIndex).isGreaterThan(0);
+        assertThat(firstStatement.lastTokenIndex).isGreaterThanOrEqualTo(firstStatement.firstTokenIndex);
     }
 
     // TRACEABILITY_MAPPING: REQ-028
