@@ -37,9 +37,11 @@ jobs:
 
       - name: Determine Release Version
         id: version_step
+        env:
+          INPUT_VERSION: ${{ inputs.version }}
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            VERSION="${{ inputs.version }}"
+            VERSION="${INPUT_VERSION}"
           else
             VERSION="${GITHUB_REF_NAME#v}"
           fi
@@ -117,9 +119,11 @@ jobs:
 
       - name: Bump to Next SNAPSHOT Version
         if: ${{ inputs.next_version != '' }}
+        env:
+          INPUT_NEXT_VERSION: ${{ inputs.next_version }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          mvn versions:set -DnewVersion=${{ inputs.next_version }} -DgenerateBackupPoms=false --batch-mode
-          git commit -am "chore: bump version to ${{ inputs.next_version }} [skip ci]"
+          mvn versions:set -DnewVersion=${INPUT_NEXT_VERSION} -DgenerateBackupPoms=false --batch-mode
+          git commit -am "chore: bump version to ${INPUT_NEXT_VERSION} [skip ci]"
           git push origin master
