@@ -2,7 +2,8 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Java 17+](https://img.shields.io/badge/Java-17%2B-blue.svg)](https://openjdk.org/)
-[![Maven Central](https://img.shields.io/badge/Maven%20Central-Snapshot-orange.svg)](#)
+[![Release](https://img.shields.io/github/v/release/fupacat/tsql-scriptdom-java)](https://github.com/fupacat/tsql-scriptdom-java/releases/latest)
+[![Javadoc](https://img.shields.io/badge/Javadoc-GitHub%20Pages-blue.svg)](https://fupacat.github.io/tsql-scriptdom-java/)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=fupacat_tsql-scriptdom-java&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=fupacat_tsql-scriptdom-java)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=fupacat_tsql-scriptdom-java&metric=coverage)](https://sonarcloud.io/summary/new_code?id=fupacat_tsql-scriptdom-java)
 
@@ -59,13 +60,13 @@ Add the dependency to your project:
 <dependency>
     <groupId>io.github.fupacat</groupId>
     <artifactId>tsql-scriptdom-core</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.1.1</version>
 </dependency>
 ```
 
 ### Gradle
 ```groovy
-implementation 'io.github.fupacat:tsql-scriptdom-core:0.1.0-SNAPSHOT'
+implementation 'io.github.fupacat:tsql-scriptdom-core:0.1.1'
 ```
 
 > **Note:** `tsql-scriptdom-core` has **zero external transitive dependencies**. The ANTLR runtime is completely shaded and relocated internally (`io.github.fupacat.internal.antlr`) to eliminate classpath collisions.
