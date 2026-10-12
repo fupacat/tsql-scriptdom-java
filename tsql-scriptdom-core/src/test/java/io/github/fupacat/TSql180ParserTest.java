@@ -42,4 +42,44 @@ public class TSql180ParserTest {
         assertThat(errors160).isNotEmpty();
         assertThat(errors160.get(0).message).contains("CREATE VECTOR INDEX");
     }
+
+    // TRACEABILITY_MAPPING: REQ-021, REQ-023
+    @Test
+    public void testParseReturnsNullForNullReader() throws Exception {
+        TSql180Parser parser = new TSql180Parser();
+        List<ParseError> errors = new ArrayList<>();
+
+        TSqlFragment fragment = parser.parse(null, errors);
+
+        assertThat(fragment).isNull();
+        assertThat(errors).isEmpty();
+    }
+
+    // TRACEABILITY_MAPPING: REQ-021, REQ-023
+    @Test
+    public void testParseSyntaxErrorIsCollected() throws Exception {
+        TSql180Parser parser = new TSql180Parser();
+        List<ParseError> errors = new ArrayList<>();
+
+        TSqlFragment fragment = parser.parse(new StringReader("SELECT FROM WHERE;"), errors);
+
+        assertThat(fragment).isNotNull();
+        assertThat(errors).isNotEmpty();
+    }
+
+    // TRACEABILITY_MAPPING: REQ-021, REQ-023
+    @Test
+    public void testParseWithQuotedIdentifierToggleConstructors() throws Exception {
+        String sql = "SELECT 1;";
+
+        List<ParseError> onErrors = new ArrayList<>();
+        TSqlFragment onFragment = new TSql180Parser(true).parse(new StringReader(sql), onErrors);
+        assertThat(onFragment).isNotNull();
+        assertThat(onErrors).isEmpty();
+
+        List<ParseError> offErrors = new ArrayList<>();
+        TSqlFragment offFragment = new TSql180Parser(false).parse(new StringReader(sql), offErrors);
+        assertThat(offFragment).isNotNull();
+        assertThat(offErrors).isEmpty();
+    }
 }

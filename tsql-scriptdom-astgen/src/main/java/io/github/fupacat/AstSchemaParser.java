@@ -1,12 +1,15 @@
 package io.github.fupacat;
 
 import java.io.InputStream;
+import javax.xml.XMLConstants;
 
 public class AstSchemaParser {
 
     // TRACEABILITY_MAPPING: REQ-001
     public AstModel parse(InputStream inputStream) throws Exception {
         javax.xml.parsers.DocumentBuilderFactory factory = javax.xml.parsers.DocumentBuilderFactory.newInstance();
+        factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+        factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
         javax.xml.parsers.DocumentBuilder builder = factory.newDocumentBuilder();
         org.w3c.dom.Document doc = builder.parse(inputStream);
         doc.getDocumentElement().normalize();
