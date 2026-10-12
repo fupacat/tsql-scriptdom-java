@@ -41,6 +41,7 @@ public class AstSchemaParserTest {
         InputStream inputStream = new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8));
 
         assertThatThrownBy(() -> parser.parse(inputStream))
-                .isInstanceOf(org.xml.sax.SAXException.class);
+                .isInstanceOf(org.xml.sax.SAXParseException.class)
+                .hasMessageContaining("DOCTYPE");
     }
 }
