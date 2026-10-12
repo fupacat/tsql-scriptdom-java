@@ -37,9 +37,11 @@ jobs:
 
       - name: Determine Release Version
         id: version_step
+        env:
+          INPUT_VERSION: ${{ inputs.version }}
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            VERSION="${{ inputs.version }}"
+            VERSION="${INPUT_VERSION}"
           else
             VERSION="${GITHUB_REF_NAME#v}"
           fi
@@ -60,8 +62,10 @@ jobs:
           cache: 'maven'
 
       - name: Bump POM Version
+        env:
+          RELEASE_VERSION: ${{ steps.version_step.outputs.RELEASE_VERSION }}
         run: |
-          mvn versions:set -DnewVersion=${{ steps.version_step.outputs.RELEASE_VERSION }} -DgenerateBackupPoms=false --batch-mode
+          mvn versions:set -DnewVersion="${RELEASE_VERSION}" -DgenerateBackupPoms=false --batch-mode
 
       - name: Run Tests and Regression Suite
         run: |
@@ -72,9 +76,11 @@ jobs:
           mvn package -P release -DskipTests --batch-mode
 
       - name: Prepare GitHub Release Assets
+        env:
+          RELEASE_VERSION: ${{ steps.version_step.outputs.RELEASE_VERSION }}
         run: |
           mkdir -p release-assets
-          VERSION="${{ steps.version_step.outputs.RELEASE_VERSION }}"
+          VERSION="${RELEASE_VERSION}"
           cp tsql-scriptdom-core/target/tsql-scriptdom-core-${VERSION}.jar release-assets/tsql-scriptdom-core-${VERSION}.jar
           cp tsql-scriptdom-core/target/tsql-scriptdom-core-${VERSION}-sources.jar release-assets/tsql-scriptdom-core-${VERSION}-sources.jar
           cp tsql-scriptdom-core/target/tsql-scriptdom-core-${VERSION}-javadoc.jar release-assets/tsql-scriptdom-core-${VERSION}-javadoc.jar
@@ -85,8 +91,9 @@ jobs:
       - name: Create GitHub Release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_VERSION: ${{ steps.version_step.outputs.RELEASE_VERSION }}
         run: |
-          VERSION="${{ steps.version_step.outputs.RELEASE_VERSION }}"
+          VERSION="${RELEASE_VERSION}"
           TAG_NAME="v${VERSION}"
           gh release create "${TAG_NAME}" \
             release-assets/* \
@@ -105,11 +112,12 @@ jobs:
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
           OSSRH_GPG_SECRET_KEY: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
           OSSRH_GPG_PASSPHRASE: ${{ secrets.OSSRH_GPG_PASSPHRASE }}
+          RELEASE_VERSION: ${{ steps.version_step.outputs.RELEASE_VERSION }}
         run: |
           if [ -n "$SONATYPE_USERNAME" ] && [ -n "$SONATYPE_PASSWORD" ] && [ -n "$OSSRH_GPG_SECRET_KEY" ]; then
             echo "Publishing to Maven Central via Sonatype Central Portal..."
             echo "$OSSRH_GPG_SECRET_KEY" | gpg --batch --import
-            VERSION="${{ steps.version_step.outputs.RELEASE_VERSION }}"
+            VERSION="${RELEASE_VERSION}"
             python3 scripts/publish_central.py "${VERSION}"
           else
             echo "Notice: Maven Central secrets (SONATYPE_USERNAME / SONATYPE_PASSWORD / OSSRH_GPG_SECRET_KEY) not configured. Skipping Maven Central deployment."
@@ -117,9 +125,11 @@ jobs:
 
       - name: Bump to Next SNAPSHOT Version
         if: ${{ inputs.next_version != '' }}
+        env:
+          INPUT_NEXT_VERSION: ${{ inputs.next_version }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          mvn versions:set -DnewVersion=${{ inputs.next_version }} -DgenerateBackupPoms=false --batch-mode
-          git commit -am "chore: bump version to ${{ inputs.next_version }} [skip ci]"
+          mvn versions:set -DnewVersion="${INPUT_NEXT_VERSION}" -DgenerateBackupPoms=false --batch-mode
+          git commit -am "chore: bump version to ${INPUT_NEXT_VERSION} [skip ci]"
           git push origin master
