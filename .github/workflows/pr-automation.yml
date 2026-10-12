@@ -37,9 +37,12 @@ jobs:
             }
           ' -f id="${PR_NODE_ID}"
 
-      # 2. Auto-merge: If PR is open, not draft, not WIP, enable auto-merge (squash)
+      # 2. Auto-merge: If PR is open, not draft, not WIP, and authored by repo member/collaborator/owner, enable auto-merge (squash)
       - name: Enable Auto-Merge
-        if: github.event.pull_request.state == 'open' && !startsWith(github.event.pull_request.title, '[WIP]')
+        if: |
+          github.event.pull_request.state == 'open' &&
+          !startsWith(github.event.pull_request.title, '[WIP]') &&
+          contains(fromJSON('["OWNER", "MEMBER", "COLLABORATOR"]'), github.event.pull_request.author_association)
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
