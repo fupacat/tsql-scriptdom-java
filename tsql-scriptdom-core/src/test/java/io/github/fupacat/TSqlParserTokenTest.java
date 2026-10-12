@@ -20,4 +20,15 @@ public class TSqlParserTokenTest {
         assertThat(TSqlTokenType.WhiteSpace._isWhitespaceOrComment()).isTrue();
         assertThat(TSqlTokenType.Select._isWhitespaceOrComment()).isFalse();
     }
+
+    // TRACEABILITY_MAPPING: REQ-006
+    @Test
+    public void testParserTokenDefaultsWhenTypeIsNull() {
+        TSqlParserToken token = new TSqlParserToken(null, 7, "?", 3, 4);
+
+        assertThat(token._getTokenType()).isEqualTo(TSqlTokenType.None);
+        assertThat(token.getType()).isZero();
+        assertThat(token._getOffset()).isEqualTo(7);
+        assertThat(token.getText()).isEqualTo("?");
+    }
 }
