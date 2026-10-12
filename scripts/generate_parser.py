@@ -281,7 +281,7 @@ public abstract class TSqlLexerBaseInternalHelper extends TSqlLexerBaseInternal 
         'TryParseOption'
     ]
     void_methods = [
-        'initialize', 'beginComplexToken', 'checkEOF', 'UpdateTokenInfo',
+        'initialize', 'beginComplexToken', 'checkEOF',
         'UpdatePositionInfo', 'AddParseError',
         'ThrowParseErrorException', 'ThrowIncorrectSyntaxErrorException',
         'ThrowPartialAstIfPhaseOne', 'ThrowConstraintIfPhaseOne',
@@ -358,7 +358,10 @@ public abstract class TSqlLexerBaseInternalHelper extends TSqlLexerBaseInternal 
         '    public Identifier GetEmptyIdentifier(Object... args) { return new Identifier(); }',
         '    public Literal GetIPv4FragmentFromDotNumberNumeric(Object... args) { return new IntegerLiteral(); }',
         '    public Literal GetIPv4FragmentFromNumberDotNumeric(Object... args) { return new IntegerLiteral(); }',
-        '    public void AddAndUpdateTokenInfo(Object... args) { if (args.length >= 3 && args[1] instanceof java.util.List list && args[2] != null) { if (args[2] instanceof java.util.Collection<?> c) { list.addAll(c); } else { list.add(args[2]); } if (args[0] instanceof SchemaObjectName son) { int count = son.Identifiers.size(); if (count > 0) son.BaseIdentifier = son.Identifiers.get(count - 1); if (count > 1) son.SchemaIdentifier = son.Identifiers.get(count - 2); if (count > 2) son.DatabaseIdentifier = son.Identifiers.get(count - 3); if (count > 3) son.ServerIdentifier = son.Identifiers.get(count - 4); } } }',
+        '    public void AddAndUpdateTokenInfo(Object... args) { if (args.length >= 3 && args[1] instanceof java.util.List list && args[2] != null) { if (args[2] instanceof java.util.Collection<?> c) { list.addAll(c); for (Object item : c) { UpdateTokenInfo(args[0], item); } } else { list.add(args[2]); UpdateTokenInfo(args[0], args[2]); } if (args[0] instanceof SchemaObjectName son) { int count = son.Identifiers.size(); if (count > 0) son.BaseIdentifier = son.Identifiers.get(count - 1); if (count > 1) son.SchemaIdentifier = son.Identifiers.get(count - 2); if (count > 2) son.DatabaseIdentifier = son.Identifiers.get(count - 3); if (count > 3) son.ServerIdentifier = son.Identifiers.get(count - 4); } } }',
+        '    public int ResolveTokenIndex(Object tokenLike) { if (_tokenSource == null || tokenLike == null) return -1; if (tokenLike instanceof Token tok) { return _tokenSource._getTokenIndex(tok); } return -1; }',
+        '    public void AttachScriptTokenStream(Object fragment) { if (_tokenSource == null || !(fragment instanceof TSqlFragment f) || f.ScriptTokenStream == null) return; if (f.ScriptTokenStream.isEmpty()) { f.ScriptTokenStream.addAll(_tokenSource._getScriptTokenStream()); } }',
+        '    public void UpdateTokenInfo(Object... args) { if (args == null || args.length == 0 || !(args[0] instanceof TSqlFragment fragment)) return; AttachScriptTokenStream(fragment); if (args.length >= 3 && args[1] instanceof Number first && args[2] instanceof Number last) { fragment.UpdateTokenInfo(first.intValue(), last.intValue()); return; } if (args.length >= 2 && args[1] instanceof TSqlFragment child) { fragment.UpdateTokenInfo(child); return; } if (args.length >= 2) { int idx = ResolveTokenIndex(args[1]); if (idx >= 0) { if (fragment.firstTokenIndex == 0 || idx < fragment.firstTokenIndex) { fragment.firstTokenIndex = idx; } if (idx > fragment.lastTokenIndex) { fragment.lastTokenIndex = idx; } } } }',
         '    public void AddIdentifierToListWithCheck(Object... args) { if (args.length >= 2 && args[0] instanceof java.util.List list && args[1] != null) { if (args[1] instanceof java.util.Collection<?> c) { list.addAll(c); } else { list.add(args[1]); } } }',
         '    public SqlDataTypeOption ParseDataType180(Object s) { if (s == null) return SqlDataTypeOption.None; String str = s.toString(); for (SqlDataTypeOption opt : SqlDataTypeOption.values()) { if (opt.name().equalsIgnoreCase(str)) return opt; } return SqlDataTypeOption.None; }',
         '    public SqlDataTypeOption ParseDataType160(Object s) { return ParseDataType180(s); }',
