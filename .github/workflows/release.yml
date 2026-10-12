@@ -62,8 +62,10 @@ jobs:
           cache: 'maven'
 
       - name: Bump POM Version
+        env:
+          RELEASE_VERSION: ${{ steps.version_step.outputs.RELEASE_VERSION }}
         run: |
-          mvn versions:set -DnewVersion=${{ steps.version_step.outputs.RELEASE_VERSION }} -DgenerateBackupPoms=false --batch-mode
+          mvn versions:set -DnewVersion="${RELEASE_VERSION}" -DgenerateBackupPoms=false --batch-mode
 
       - name: Run Tests and Regression Suite
         run: |
