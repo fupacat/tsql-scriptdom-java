@@ -26,6 +26,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v7
@@ -39,9 +41,17 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
-      - name: Build Javadocs
+      - name: Build and Extract Javadocs
         run: |
+          LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          if [ -n "${LATEST_TAG}" ]; then
+            DOC_VERSION="${LATEST_TAG#v}"
+            mvn versions:set -DnewVersion="${DOC_VERSION}" -DgenerateBackupPoms=false --batch-mode
+          fi
           mvn package -P release -DskipTests --batch-mode
+          mkdir -p apidocs-site
+          JAR_FILE=$(ls tsql-scriptdom-core/target/*-javadoc.jar | head -n 1)
+          unzip -q "${JAR_FILE}" -d apidocs-site
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
@@ -49,7 +59,7 @@ jobs:
       - name: Upload Javadoc Pages Artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: tsql-scriptdom-core/target/apidocs
+          path: apidocs-site
 
   deploy:
     name: Deploy to GitHub Pages
