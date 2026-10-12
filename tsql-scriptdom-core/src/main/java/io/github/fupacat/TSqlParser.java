@@ -78,7 +78,7 @@ public class TSqlParser {
     @SuppressWarnings("unchecked")
     public ParseResult<TSqlScript> parseScript(Reader reader) {
         List<ParseError> errors = new ArrayList<>();
-        TSql180Parser underlying = new TSql180Parser(initialQuotedIdentifiersOn, targetVersion);
+        TSql180Parser underlying = createUnderlyingParser();
         try {
             TSqlFragment fragment = underlying.parse(reader, errors);
             TSqlScript script = fragment instanceof TSqlScript s ? s : null;
@@ -95,6 +95,10 @@ public class TSqlParser {
     public ParseResult<TSqlScript> parseScript(String sql) {
         Objects.requireNonNull(sql, "SQL string must not be null");
         return parseScript(new StringReader(sql));
+    }
+
+    TSql180Parser createUnderlyingParser() {
+        return new TSql180Parser(initialQuotedIdentifiersOn, targetVersion);
     }
 
     public boolean isInitialQuotedIdentifiersOn() {
