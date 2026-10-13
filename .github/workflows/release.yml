@@ -21,13 +21,15 @@ on:
         default: false
 
 permissions:
-  contents: write
-  packages: write
+  contents: read
 
 jobs:
   release:
     name: Build, Package, and Distribute
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
 
     steps:
       - name: Checkout repository
@@ -85,7 +87,7 @@ jobs:
           cp tsql-scriptdom-core/target/tsql-scriptdom-core-${VERSION}-sources.jar release-assets/tsql-scriptdom-core-${VERSION}-sources.jar
           cp tsql-scriptdom-core/target/tsql-scriptdom-core-${VERSION}-javadoc.jar release-assets/tsql-scriptdom-core-${VERSION}-javadoc.jar
           cd release-assets
-          sha256sum * > SHA256SUMS
+          sha256sum ./* > SHA256SUMS
           cd ..
 
       - name: Create GitHub Release
@@ -96,9 +98,9 @@ jobs:
           VERSION="${RELEASE_VERSION}"
           TAG_NAME="v${VERSION}"
           gh release create "${TAG_NAME}" \
-            release-assets/* \
+            ./release-assets/* \
             --title "Release v${VERSION}" \
-            --generate-notes || gh release upload "${TAG_NAME}" release-assets/* --clobber
+            --generate-notes || gh release upload "${TAG_NAME}" ./release-assets/* --clobber
 
       - name: Deploy to GitHub Packages
         env:

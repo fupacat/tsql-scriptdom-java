@@ -12,8 +12,6 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
   group: "pages"
@@ -50,7 +48,7 @@ jobs:
           fi
           mvn package -P release -DskipTests --batch-mode
           mkdir -p apidocs-site
-          JAR_FILE=$(ls tsql-scriptdom-core/target/*-javadoc.jar | head -n 1)
+          JAR_FILE=$(ls ./tsql-scriptdom-core/target/*-javadoc.jar | head -n 1)
           unzip -q "${JAR_FILE}" -d apidocs-site
 
       - name: Configure GitHub Pages
@@ -65,6 +63,9 @@ jobs:
     name: Deploy to GitHub Pages
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
